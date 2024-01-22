@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Tab fx:id="tabVentas" text="Ventas" fx:controller="com.javafxtest.VentasController" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+    <content>
+        <AnchorPane fx:id="paneVentas" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+            <children>
+                <Label layoutX="28.0" layoutY="277.0" text="Ventas-tab" />
+            </children>
+        </AnchorPane>
+    </content>
+</Tab>

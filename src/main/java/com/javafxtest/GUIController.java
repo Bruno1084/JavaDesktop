@@ -6,6 +6,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TabPane;
 
 public class GUIController {
+    @FXML
+    private InicioController inicioController;
+    @FXML
+    private VentasController ventasController;
+
+
     //Side menu buttons
     @FXML
     private Button btnInicio;
@@ -49,7 +55,5 @@ public class GUIController {
         System.out.println(mainTabPane.getTabs().get(4).getId());
         mainTabPane.getSelectionModel().select(4);
     }
-
-
 
 }
