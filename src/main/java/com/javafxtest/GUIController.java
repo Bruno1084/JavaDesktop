@@ -10,6 +10,12 @@ public class GUIController {
     private InicioController inicioController;
     @FXML
     private VentasController ventasController;
+    @FXML
+    private ProductosController productosController;
+    @FXML
+    private ComprasController comprasController;
+    @FXML
+    private CalendarioController calendarioController;
 
 
     //Side menu buttons
