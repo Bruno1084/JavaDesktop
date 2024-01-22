@@ -38,27 +38,22 @@ public class GUIController {
 
     @FXML
     protected void handleBtnInicio(ActionEvent event){
-        System.out.println(mainTabPane.getTabs().get(0).getId());
         mainTabPane.getSelectionModel().select(0);
     }
     @FXML
     protected void handleBtnVentas(ActionEvent event){
-        System.out.println(mainTabPane.getTabs().get(1).getId());
         mainTabPane.getSelectionModel().select(1);
     }
     @FXML
     protected void handleBtnProductos(ActionEvent event){
-        System.out.println(mainTabPane.getTabs().get(2).getId());
         mainTabPane.getSelectionModel().select(2);
     }
     @FXML
     protected void handleBtnCompras(ActionEvent event){
-        System.out.println(mainTabPane.getTabs().get(3).getId());
         mainTabPane.getSelectionModel().select(3);
     }
     @FXML
     protected void handleCalendario(ActionEvent event){
-        System.out.println(mainTabPane.getTabs().get(4).getId());
         mainTabPane.getSelectionModel().select(4);
     }
 
