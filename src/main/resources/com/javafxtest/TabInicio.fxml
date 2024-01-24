@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
+
 <AnchorPane fx:id="paneInicio" fx:controller="com.javafxtest.InicioController" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutX="175.0" layoutY="73.0" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -16,24 +17,7 @@
                <children>
                   <HBox fillHeight="false" prefHeight="424.0" prefWidth="650.0" style="-fx-border-style: solid;" />
                   <Pane prefHeight="70.0" prefWidth="650.0" style="-fx-border-style: solid;" />
-                  <AnchorPane prefHeight="392.0" prefWidth="650.0">
-                     <children>
-                        <TableView fx:id="tableInicio" layoutX="147.0" layoutY="53.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <columnResizePolicy>
-                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                           </columnResizePolicy>
-                           <columns>
-                              <TableColumn fx:id="ColumnID" editable="false" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" sortable="false" text="ID" />
-                              <TableColumn fx:id="ColumnNombre" prefWidth="75.0" text="Nombre" />
-                              <TableColumn fx:id="ColumnCompra" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" text="Compra" />
-                              <TableColumn fx:id="ColumnPrecio" prefWidth="75.0" text="Precio" />
-                              <TableColumn fx:id="ColumnTipoPago" prefWidth="75.0" text="TipoPago" />
-                              <TableColumn fx:id="ColumnPagado" prefWidth="75.0" text="Pagado" />
-                              <TableColumn fx:id="ColumnEditar" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" text="Editar" />
-                           </columns>
-                        </TableView>
-                     </children>
-                  </AnchorPane>
+                  <fx:include source="Tables/TableVentas.fxml"/>
                </children>
             </VBox>
          </content>
