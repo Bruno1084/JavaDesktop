@@ -25,7 +25,7 @@
                      <children>
                         <AnchorPane prefHeight="424.0" prefWidth="325.0" style="-fx-border-style: solid;" HBox.hgrow="ALWAYS">
                            <children>
-                              <LineChart fx:id="InicioGraph" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <LineChart fx:id="graphChart" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <xAxis>
                                   <CategoryAxis side="BOTTOM" />
                                 </xAxis>
@@ -49,7 +49,7 @@
                                                 <Font name="System Bold" size="16.0" />
                                              </font>
                                           </Text>
-                                          <Text layoutX="56.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Just some price">
+                                          <Text fx:id="daySellingsText" layoutX="56.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Just some price">
                                              <font>
                                                 <Font size="28.0" />
                                              </font>
@@ -65,7 +65,7 @@
                                                 <Font name="System Bold" size="16.0" />
                                              </font>
                                           </Text>
-                                          <Text layoutX="56.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Just some price">
+                                          <Text fx:id="mothSellingsText" layoutX="56.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Just some price">
                                              <font>
                                                 <Font size="28.0" />
                                              </font>

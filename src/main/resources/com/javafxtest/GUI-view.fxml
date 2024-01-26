@@ -30,9 +30,9 @@
          <children>
              <Pane prefHeight="200.0" prefWidth="200.0">
                  <children>
-                     <Label contentDisplay="CENTER" layoutX="63.0" layoutY="38.0" prefHeight="42.0" prefWidth="105.0" style="-fx-border-style: solid; -fx-text-fill: white;" text="Company" textAlignment="CENTER" textFill="WHITE">
+                     <Label contentDisplay="CENTER" layoutX="40.0" layoutY="30.0" prefHeight="57.0" prefWidth="144.0" style="-fx-text-fill: white;" text="Company" textAlignment="CENTER" textFill="WHITE">
                          <font>
-                             <Font name="System Bold" size="20.0" />
+                             <Font name="System Bold" size="30.0" />
                          </font>
                          <padding>
                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -75,7 +75,7 @@
             <Insets />
          </opaqueInsets>
          <BorderPane.margin>
-            <Insets top="-28.0" />
+            <Insets top="-29.0" />
          </BorderPane.margin>
       </TabPane>
    </center>
