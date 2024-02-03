@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="paneCalendario" fx:controller="com.javafxtest.CalendarioController" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+<AnchorPane fx:id="paneCalendario" fx:controller="Javafxtest.CalendarioController" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
     <children>
         <Label layoutX="27.0" layoutY="277.0" text="Calendario-tab" />
     </children>

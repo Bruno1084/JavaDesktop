@@ -4,7 +4,8 @@ module com.javafxtest {
 
     requires org.controlsfx.controls;
     requires org.kordamp.bootstrapfx.core;
+    requires java.sql;
 
-    opens com.javafxtest to javafx.fxml;
-    exports com.javafxtest;
+    opens Javafxtest to javafx.fxml;
+    exports Javafxtest;
 }

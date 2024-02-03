@@ -1,4 +1,4 @@
-package com.javafxtest;
+package Javafxtest;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

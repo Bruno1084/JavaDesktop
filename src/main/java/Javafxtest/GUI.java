@@ -1,11 +1,14 @@
-package com.javafxtest;
+package Javafxtest;
 
+import DatabaseConnection.Database;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class GUI extends Application {
     @Override
@@ -18,6 +21,7 @@ public class GUI extends Application {
     }
 
     public static void main(String[] args) {
+
         launch();
     }
 }

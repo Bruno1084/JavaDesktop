@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="paneProductos" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Javafxtest.ProductosController">
+    <children>
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutX="175.0" layoutY="73.0" maxWidth="1.7976931348623157E308" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <content>
+                <VBox prefWidth="666.0" style="-fx-padding: 8;">
+                    <children>
+                  <HBox prefHeight="371.0" prefWidth="650.0" style="-fx-border-style: solid;" VBox.vgrow="ALWAYS">
+                     <children>
+                        <AnchorPane maxHeight="350.0" maxWidth="400.0" prefHeight="350.0" prefWidth="400.0" style="-fx-border-style: solid; -fx-border-radius: 8;" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                           <children>
+                              <PieChart fx:id="graphProducts" layoutX="-110.0" layoutY="-30.0" title="Distribución de Productos" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                        <VBox prefHeight="338.0" prefWidth="400.0" style="-fx-border-style: solid; -fx-border-radius: 8;" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                           <children>
+                              <Pane prefHeight="85.0" prefWidth="327.0" style="-fx-border-style: solid;">
+                                 <children>
+                                    <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Categoria 1">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="11.0" layoutY="11.0" prefHeight="85.0" prefWidth="327.0" style="-fx-border-style: solid;">
+                                 <children>
+                                    <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Categoria 2">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="11.0" layoutY="118.0" prefHeight="85.0" prefWidth="327.0" style="-fx-border-style: solid;">
+                                 <children>
+                                    <Text layoutX="15.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Categoria 3">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="11.0" layoutY="181.0" prefHeight="85.0" prefWidth="327.0" style="-fx-border-style: solid;">
+                                 <children>
+                                    <Text layoutX="14.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Categoria 4">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                              </Pane>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </padding>
+                  </HBox>
+                        <AnchorPane style="-fx-border-style: solid;" VBox.vgrow="ALWAYS">
+                            <VBox.margin>
+                                <Insets bottom="4.0" top="8.0" />
+                            </VBox.margin>
+                            <children>
+                                <TextField fx:id="searchBar" layoutX="15.0" layoutY="11.0" maxWidth="500.0" prefWidth="500.0" text="Buscar" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="10.0">
+                                    <padding>
+                                        <Insets left="12.0" />
+                                    </padding>
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                </TextField>
+                                <MenuButton fx:id="filterButton" layoutX="553.0" layoutY="10.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="65.0" text="Filtrar" AnchorPane.rightAnchor="32.0">
+                                    <items>
+                                        <MenuItem mnemonicParsing="false" text="ID" />
+                                        <MenuItem mnemonicParsing="false" text="Nombre" />
+                                        <MenuItem mnemonicParsing="false" text="Compra" />
+                                        <MenuItem mnemonicParsing="false" text="Precio" />
+                                        <MenuItem mnemonicParsing="false" text="TipoPago" />
+                                        <MenuItem mnemonicParsing="false" text="Pagado" />
+                                        <MenuItem mnemonicParsing="false" text="Editar" />
+                                    </items>
+                                </MenuButton>
+                            </children>
+                        </AnchorPane>
+                        <fx:include source="Tables/TableProductos.fxml" />
+                    </children>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </children>
+</AnchorPane>

@@ -1,4 +1,4 @@
-package com.javafxtest;
+package Javafxtest;
 
 public class CalendarioController {
 
