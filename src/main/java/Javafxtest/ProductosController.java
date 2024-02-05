@@ -44,10 +44,14 @@ public class ProductosController {
         Database.establishConnection();
 
         ResultSet resultSet = Database.querryAllFromTable("producto");
-        loadProductData(resultSet);
+        ObservableList <Producto> data = loadProductData(resultSet);
+
+        tableProductos.setItems(data);
+
+        Database.closeConnection();
     }
 
-    private void loadProductData(ResultSet resultSet){
+    private ObservableList<Producto> loadProductData(ResultSet resultSet){
         ObservableList<Producto> data = FXCollections.observableArrayList();
 
         try{
@@ -75,8 +79,7 @@ public class ProductosController {
             Database.closeConnection();
             e.printStackTrace();
         }
-
-        Database.closeConnection();
+        return data;
     }
 
 

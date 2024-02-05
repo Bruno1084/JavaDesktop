@@ -7,5 +7,7 @@ module com.javafxtest {
     requires java.sql;
 
     opens Javafxtest to javafx.fxml;
+    opens DatabaseConnection to javafx.base;
+
     exports Javafxtest;
 }
