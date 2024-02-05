@@ -1,12 +1,15 @@
 package DatabaseConnection;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class Database {
 
     private static Connection connection = null;
+
+
+    public static Connection getConnection(){
+        return connection;
+    }
 
     public static void establishConnection(){
         try{
@@ -27,9 +30,21 @@ public class Database {
         }
     }
 
-    public static Connection getConnection(){
-        return connection;
+    public static ResultSet querryAllFromTable(String tableName) {
+        String querry = "SELECT * FROM " + tableName;
+        ResultSet resultSet = null;
+        try {
+            PreparedStatement preparedStatement = Database.getConnection().prepareStatement(querry);
+            resultSet = preparedStatement.executeQuery();
+
+            System.out.println(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return resultSet;
     }
+
 
     
 }
