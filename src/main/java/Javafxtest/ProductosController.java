@@ -66,14 +66,6 @@ public class ProductosController {
                 String ctoNeto = resultSet.getString("CNetoProducto");
 
                 data.add(new Producto(id, nombre, precio, stock, marca, categoria, null, ctoNeto));
-                System.out.println(
-                        "Id: " + id + "  " +
-                        "Nombre: " + nombre + "  " +
-                        "Precio: " + precio + "  " +
-                        "Stock: " + stock + "  " +
-                        "Marca: " + marca + "  " +
-                        "Categoria: " + categoria + "  "
-                );
             }
         }catch (SQLException e){
             Database.closeConnection();
