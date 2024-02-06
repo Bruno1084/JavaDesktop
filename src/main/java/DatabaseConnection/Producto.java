@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class Producto {
     private final int id;
+    private final long barCodigo;
     private final String nombre;
     private final float precio;
     private final int stock;
@@ -12,8 +13,9 @@ public class Producto {
     private final Date vencimiento;
     private final String ctoNeto;
 
-    public Producto(int id, String nombre, float precio, int stock, String marca, String categoria, Date vencimiento, String ctoNeto){
+    public Producto(int id, long barCodigo, String nombre, float precio, int stock, String marca, String categoria, Date vencimiento, String ctoNeto){
         this.id = id;
+        this.barCodigo = barCodigo;
         this.nombre = nombre;
         this.precio = precio;
         this.stock = stock;
@@ -26,6 +28,10 @@ public class Producto {
 
     public int getID(){
         return id;
+    }
+
+    public long getBarCodigo(){
+        return barCodigo;
     }
 
     public String getNombre() {

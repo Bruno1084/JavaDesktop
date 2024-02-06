@@ -19,6 +19,8 @@ public class ProductosController {
     @FXML
     private TableColumn <Producto, Integer> ColumnID;
     @FXML
+    private TableColumn <Producto, Long> ColumnCodigo;
+    @FXML
     private TableColumn <Producto, String> ColumnNombre;
     @FXML
     private  TableColumn <Producto, Float> ColumnPrecio;
@@ -35,11 +37,14 @@ public class ProductosController {
 
     public void initialize() {
         ColumnID.setCellValueFactory(new PropertyValueFactory<>("ID"));
+        ColumnCodigo.setCellValueFactory(new PropertyValueFactory<>("barCodigo"));
         ColumnNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         ColumnPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
         ColumnStock.setCellValueFactory(new PropertyValueFactory<>("stock"));
         ColumnMarca.setCellValueFactory(new PropertyValueFactory<>("marca"));
         ColumnCategoria.setCellValueFactory(new PropertyValueFactory<>("categoria"));
+        ColumnVencimiento.setCellValueFactory(new PropertyValueFactory<>("vencimiento"));
+        ColumnCtoNeto.setCellValueFactory(new PropertyValueFactory<>("ctoNeto"));
 
         Database.establishConnection();
 
@@ -57,15 +62,17 @@ public class ProductosController {
         try{
             while (resultSet.next()){
                 int id = Integer.parseInt(resultSet.getString("IdProducto"));
+                long barCodigo = Long.parseLong(resultSet.getString("CodBarraProducto"));
                 String nombre = resultSet.getString("NbrProducto");
                 float precio = Float.parseFloat(resultSet.getString("PrecProducto"));
                 int stock = Integer.parseInt(resultSet.getString("StockProducto"));
                 String marca = resultSet.getString("MarcProducto");
                 String categoria = resultSet.getString("CatProducto");
-                String vencimiento = resultSet.getString("VencProducto");
+                java.sql.Date sqlVencimiento = resultSet.getDate("VencProducto");
+                Date vencimiento = sqlVencimiento != null ? new Date(sqlVencimiento.getTime()) : null;
                 String ctoNeto = resultSet.getString("CNetoProducto");
 
-                data.add(new Producto(id, nombre, precio, stock, marca, categoria, null, ctoNeto));
+                data.add(new Producto(id, barCodigo, nombre, precio, stock, marca, categoria, vencimiento, ctoNeto));
             }
         }catch (SQLException e){
             Database.closeConnection();
