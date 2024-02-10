@@ -8,6 +8,7 @@ module com.javafxtest {
 
     opens Javafxtest to javafx.fxml;
     opens DatabaseConnection to javafx.base;
+    opens ModalsController to javafx.fxml;
 
     exports Javafxtest;
 }

@@ -31,8 +31,6 @@ public class ProductosController {
     @FXML
     private TableColumn <Producto, String> ColumnCategoria;
     @FXML
-    private  TableColumn <Producto, Date> ColumnVencimiento;
-    @FXML
     private TableColumn <Producto, String> ColumnCtoNeto;
 
     public void initialize() {
@@ -43,7 +41,6 @@ public class ProductosController {
         ColumnStock.setCellValueFactory(new PropertyValueFactory<>("stock"));
         ColumnMarca.setCellValueFactory(new PropertyValueFactory<>("marca"));
         ColumnCategoria.setCellValueFactory(new PropertyValueFactory<>("categoria"));
-        ColumnVencimiento.setCellValueFactory(new PropertyValueFactory<>("vencimiento"));
         ColumnCtoNeto.setCellValueFactory(new PropertyValueFactory<>("ctoNeto"));
 
         Database.establishConnection();
@@ -68,11 +65,9 @@ public class ProductosController {
                 int stock = Integer.parseInt(resultSet.getString("StockProducto"));
                 String marca = resultSet.getString("MarcProducto");
                 String categoria = resultSet.getString("CatProducto");
-                java.sql.Date sqlVencimiento = resultSet.getDate("VencProducto");
-                Date vencimiento = sqlVencimiento != null ? new Date(sqlVencimiento.getTime()) : null;
                 String ctoNeto = resultSet.getString("CNetoProducto");
 
-                data.add(new Producto(id, barCodigo, nombre, precio, stock, marca, categoria, vencimiento, ctoNeto));
+                data.add(new Producto(id, barCodigo, nombre, precio, stock, marca, categoria, ctoNeto));
             }
         }catch (SQLException e){
             Database.closeConnection();

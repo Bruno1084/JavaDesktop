@@ -10,10 +10,9 @@ public class Producto {
     private final int stock;
     private final String marca;
     private final String categoria;
-    private final Date vencimiento;
     private final String ctoNeto;
 
-    public Producto(int id, long barCodigo, String nombre, float precio, int stock, String marca, String categoria, Date vencimiento, String ctoNeto){
+    public Producto(int id, long barCodigo, String nombre, float precio, int stock, String marca, String categoria, String ctoNeto){
         this.id = id;
         this.barCodigo = barCodigo;
         this.nombre = nombre;
@@ -21,7 +20,6 @@ public class Producto {
         this.stock = stock;
         this.marca = marca;
         this.categoria = categoria;
-        this.vencimiento = vencimiento;
         this.ctoNeto = ctoNeto;
     }
 
@@ -52,10 +50,6 @@ public class Producto {
 
     public String getCategoria() {
         return categoria;
-    }
-
-    public Date getVencimiento() {
-        return vencimiento;
     }
 
     public String getCtoNeto() {

@@ -18,10 +18,6 @@ public class GUI extends Application {
     }
 
     public static void main(String[] args) {
-        //Database.establishConnection();
-        //Database.querryAllFromTable("producto");
-        //Database.closeConnection();
         launch();
-
     }
 }

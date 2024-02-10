@@ -19,7 +19,7 @@
 <?import javafx.scene.control.TableView?>
 
 
-<AnchorPane fx:id="paneVentas" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Javafxtest.VentasController">
+<AnchorPane fx:id="paneVentas" xmlns="http://javafx.com/javafx/19.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Javafxtest.VentasController">
     <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutX="175.0" layoutY="73.0" maxWidth="1.7976931348623157E308" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <VBox prefHeight="900.0" prefWidth="666.0" style="-fx-padding: 8;">
             <HBox fillHeight="false" prefHeight="424.0" prefWidth="650.0">

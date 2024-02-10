@@ -102,7 +102,6 @@
                         <TableColumn fx:id="ColumnStock" maxWidth="80.0" minWidth="80.0" text="Stock" />
                         <TableColumn fx:id="ColumnMarca" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="Marca" />
                         <TableColumn fx:id="ColumnCategoria" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="Categoria" />
-                        <TableColumn fx:id="ColumnVencimiento" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" text="Vencimiento" />
                         <TableColumn fx:id="ColumnCtoNeto" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" text="CNeto" />
                         <TableColumn fx:id="ColumnEditar" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" text="Editar" />
                     </columns>

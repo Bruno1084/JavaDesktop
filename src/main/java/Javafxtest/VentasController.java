@@ -16,13 +16,11 @@ public class VentasController {
 
     @FXML
     protected void handleAgregarButton(ActionEvent event){
-        System.out.println("AgregarButton presionado");
         try{
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Modals/modalVentas.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ModalsController/modalVentas.fxml"));
             Stage secondStage = new Stage();
             secondStage.setScene(new Scene(fxmlLoader.load()));
             secondStage.show();
-            System.out.println("Second stage agregada");
         }catch (IOException exception){
             exception.printStackTrace();
         }
