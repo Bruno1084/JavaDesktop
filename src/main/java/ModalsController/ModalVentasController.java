@@ -1,9 +1,7 @@
 package ModalsController;
 
 import DatabaseConnection.Database;
-import DatabaseConnection.Detalle_venta;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import DatabaseConnection.ModalDetalle_venta;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -34,20 +32,20 @@ public class ModalVentasController{
     private Button buttonAgregarProducto;
 
     @FXML
-    private TableColumn <Detalle_venta, Integer> ColumnID;
+    private TableColumn <ModalDetalle_venta, Integer> ColumnID;
     @FXML
-    private TableColumn <Detalle_venta, Long> ColumnCodigo;
+    private TableColumn <ModalDetalle_venta, Long> ColumnCodigo;
     @FXML
-    private TableColumn <Detalle_venta, String> ColumnNombre;
+    private TableColumn <ModalDetalle_venta, String> ColumnNombre;
     @FXML
-    private TableColumn <Detalle_venta, Integer> ColumnCantidad;
+    private TableColumn <ModalDetalle_venta, Integer> ColumnCantidad;
     @FXML
-    private TableColumn <Detalle_venta, Float> ColumnPrecio;
+    private TableColumn <ModalDetalle_venta, Float> ColumnPrecio;
     @FXML
-    private TableView<Detalle_venta> tableProducto;
+    private TableView<ModalDetalle_venta> tableProductos;
+    private ResultSet productos;
 
-    private final ObservableList<Detalle_venta> ventasData = FXCollections.observableArrayList();
-    private final ObservableList<String> productNames = FXCollections.observableArrayList();
+
 
 
     public void initialize(){
@@ -57,19 +55,23 @@ public class ModalVentasController{
         ColumnCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
         ColumnPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
 
-        tableProducto.setItems(ventasData);
 
-        Database.establishConnection();
-        ResultSet resultSetProductos = Database.querryAllFromTable("producto");
-        Database.closeConnection();
     }
 
     @FXML
     protected void handleButtonAgregarProducto(ActionEvent event){
-        long codigoProducto = Long.parseLong(textFieldCodigo.getText());
+        String codigoProductoText = textFieldCodigo.getText();
         String nombreProducto = textFieldProducto.getText();
-        int cantidadProducto = Integer.parseInt(textFieldCantidad.getText());
-        float precioProducto = Float.parseFloat(textFieldPrecio.getText());
+        String cantidadProductoText = textFieldCantidad.getText();
+        String precioProductoText = textFieldPrecio.getText();
+
+        if (codigoProductoText.isEmpty() || nombreProducto.isEmpty() || cantidadProductoText.isEmpty() || precioProductoText.isEmpty()) {
+            return;
+        }
+
+        long codigoProducto = Long.parseLong(codigoProductoText);
+        int cantidadProducto = Integer.parseInt(cantidadProductoText);
+        float precioProducto = Float.parseFloat(precioProductoText);
 
         textFieldCodigo.setText("");
         textFieldProducto.setText("");
@@ -79,7 +81,10 @@ public class ModalVentasController{
 
     @FXML
     protected void handleTextFieldProducto(){
-
+        Database.establishConnection();
+        //productos = Database.querryWhereContains("producto", "NbrProducto", textFieldProducto.getText());
+        System.out.println(textFieldProducto.getText());
+        Database.closeConnection();
     }
 
     public TextField getTextFieldCodigo() {

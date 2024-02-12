@@ -1,6 +1,5 @@
 package DatabaseConnection;
 
-import java.util.Date;
 
 public class Producto {
     private final int id;

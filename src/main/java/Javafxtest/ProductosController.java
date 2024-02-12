@@ -10,12 +10,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 
 public class ProductosController {
 
     @FXML
-   private TableView <Producto> tableProductos;
+    private TableView <Producto> tableProductos;
     @FXML
     private TableColumn <Producto, Integer> ColumnID;
     @FXML
@@ -23,7 +22,7 @@ public class ProductosController {
     @FXML
     private TableColumn <Producto, String> ColumnNombre;
     @FXML
-    private  TableColumn <Producto, Float> ColumnPrecio;
+    private TableColumn <Producto, Float> ColumnPrecio;
     @FXML
     private TableColumn <Producto, Integer> ColumnStock;
     @FXML
@@ -44,12 +43,9 @@ public class ProductosController {
         ColumnCtoNeto.setCellValueFactory(new PropertyValueFactory<>("ctoNeto"));
 
         Database.establishConnection();
-
         ResultSet resultSet = Database.querryAllFromTable("producto");
         ObservableList <Producto> data = loadProductData(resultSet);
-
         tableProductos.setItems(data);
-
         Database.closeConnection();
     }
 

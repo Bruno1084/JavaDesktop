@@ -1,6 +1,6 @@
 package DatabaseConnection;
 
-public class Detalle_venta {
+public class Detalle_venta{
     private int idDetalle_venta;
     private int idVenta;
     private int idProducto;
