@@ -14,7 +14,6 @@ public class Database {
         try {
             String url = "jdbc:mysql://localhost:3306/stockapp";
             connection = DriverManager.getConnection(url, "root", "Toon");
-            System.out.println("Conexión con la base de datos establecida");
       }catch (SQLException e){
             e.printStackTrace();
         }
@@ -23,7 +22,6 @@ public class Database {
     public static void closeConnection(){
         try {
             connection.close();
-            //System.out.println("Conexión con la base de datos cerrada");
         } catch (SQLException e) {
             e.printStackTrace();
         }

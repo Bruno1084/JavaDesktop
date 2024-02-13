@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -30,13 +31,9 @@
             <contextMenu>
                <ContextMenu fx:id="productoContextMenu">
                  <items>
-                    <MenuItem text="Item 1" />
-                    <MenuItem text="Item 2" />
-                    <MenuItem text="Item 3" />
                  </items>
                </ContextMenu>
-            </contextMenu>
-         </TextField>
+            </contextMenu></TextField>
          <Text layoutX="310.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cantidad:" underline="true">
             <font>
                <Font size="14.0" />
@@ -61,6 +58,7 @@
             </font>
          </Text>
          <TextField fx:id="textFieldPrecio" layoutX="625.0" layoutY="19.0" prefHeight="25.0" prefWidth="120.0" />
+         <ListView fx:id="listViewProducto" layoutX="375.0" layoutY="44.0" prefHeight="148.0" prefWidth="149.0" style="-fx-border-style: solid; visibility: false;" />
       </Pane>
       <TableView fx:id="tableProducto" prefHeight="330.0" prefWidth="800.0" VBox.vgrow="ALWAYS">
         <columns>

@@ -2,12 +2,15 @@ package ModalsController;
 
 import DatabaseConnection.Database;
 import DatabaseConnection.ModalDetalle_venta;
-import javafx.event.ActionEvent;
+import DatabaseConnection.Producto;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ModalVentasController{
@@ -33,7 +36,6 @@ public class ModalVentasController{
     private Button buttonHacerCompra;
     @FXML
     private Button buttonAgregarProducto;
-
     @FXML
     private TableColumn <ModalDetalle_venta, Integer> ColumnID;
     @FXML
@@ -46,9 +48,7 @@ public class ModalVentasController{
     private TableColumn <ModalDetalle_venta, Float> ColumnPrecio;
     @FXML
     private TableView<ModalDetalle_venta> tableProductos;
-    private ResultSet productos;
-
-
+    private final List<Producto> productos = new ArrayList<>();
 
 
     public void initialize(){
@@ -58,15 +58,15 @@ public class ModalVentasController{
         ColumnCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
         ColumnPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
 
-
     }
 
     @FXML
-    protected void handleButtonAgregarProducto(ActionEvent event){
+    protected void handleButtonAgregarProducto(){
         String codigoProductoText = textFieldCodigo.getText();
         String nombreProducto = textFieldProducto.getText();
         String cantidadProductoText = textFieldCantidad.getText();
         String precioProductoText = textFieldPrecio.getText();
+
 
         if (codigoProductoText.isEmpty() || nombreProducto.isEmpty() || cantidadProductoText.isEmpty() || precioProductoText.isEmpty()) {
             return;
@@ -80,14 +80,19 @@ public class ModalVentasController{
         textFieldProducto.setText("");
         textFieldCantidad.setText("");
         textFieldPrecio.setText("");
+        textFieldStockDisp.setText("");
     }
 
     @FXML
     protected void handleTextFieldProducto(){
+        System.out.println(textFieldProducto.getText());
         Database.establishConnection();
-        int cantProductos = Database.querryCountRows("producto", "NbrProducto", textFieldProducto.getText());
-        System.out.println(cantProductos);
+        productoContextMenu.getItems().clear();
+
+        querrySearchedProductos();
+
         Database.closeConnection();
+        onClickTextFieldProducto();
     }
 
     @FXML
@@ -95,39 +100,36 @@ public class ModalVentasController{
         productoContextMenu.show(textFieldProducto, Side.BOTTOM, 0, 0);
     }
 
-    public TextField getTextFieldCodigo() {
-        return textFieldCodigo;
+
+    protected void querrySearchedProductos(){
+        try{
+            ResultSet resultSet = Database.querryWhereContains("producto", "NbrProducto", textFieldProducto.getText());
+
+            while (resultSet.next()){
+                int id = Integer.parseInt(resultSet.getString("IdProducto"));
+                long barCodigo = Long.parseLong(resultSet.getString("CodBarraProducto"));
+                String nombre = resultSet.getString("NbrProducto");
+                float precio = Float.parseFloat(resultSet.getString("PrecProducto"));
+                int stock = Integer.parseInt(resultSet.getString("StockProducto"));
+                String marca = resultSet.getString("MarcProducto");
+                String categoria = resultSet.getString("CatProducto");
+                String ctoNeto = resultSet.getString("CNetoProducto");
+
+                Producto producto = new Producto(id, barCodigo, nombre, precio, stock, marca, categoria, ctoNeto);
+                productos.add(producto);
+
+                CustomMenuItem itemProducto = new CustomMenuItem(producto.getNombre(), producto);
+                itemProducto.setOnAction(event -> {
+                    textFieldProducto.setText(producto.getNombre());
+                    textFieldPrecio.setText(String.valueOf(producto.getPrecio()));
+                    textFieldCodigo.setText(String.valueOf(producto.getBarCodigo()));
+                    textFieldStockDisp.setText(String.valueOf(producto.getStock()));
+                });
+                productoContextMenu.getItems().add(itemProducto);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
-    public TextField getTextFieldProducto() {
-        return textFieldProducto;
-    }
-
-    public TextField getTextFieldPrecio() {
-        return textFieldPrecio;
-    }
-
-    public TextField getTextFieldCantidad() {
-        return textFieldCantidad;
-    }
-
-    public TextField getTextFieldStockDisp() {
-        return textFieldStockDisp;
-    }
-
-    public TextField getTextFieldClienteId() {
-        return textFieldClienteId;
-    }
-
-    public TextField getTextFieldNombre() {
-        return textFieldNombre;
-    }
-
-    public TextField getTextFieldTotalPagar() {
-        return textFieldTotalPagar;
-    }
-
-    public ContextMenu getProductoContextMenu() {
-        return productoContextMenu;
-    }
 }
