@@ -12,13 +12,10 @@ public class Database {
 
     public static void establishConnection(){
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
             String url = "jdbc:mysql://localhost:3306/stockapp";
             connection = DriverManager.getConnection(url, "root", "Toon");
             System.out.println("Conexión con la base de datos establecida");
-        }catch (ClassNotFoundException e){
-            e.printStackTrace();
-        }catch (SQLException e){
+      }catch (SQLException e){
             e.printStackTrace();
         }
     }
@@ -26,7 +23,7 @@ public class Database {
     public static void closeConnection(){
         try {
             connection.close();
-            System.out.println("Conexión con la base de datos cerrada");
+            //System.out.println("Conexión con la base de datos cerrada");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -59,6 +56,22 @@ public class Database {
         }
 
         return resultSet;
+    }
+
+    public static int querryCountRows(String tablename, String columnTable, String searchInput){
+        String querry = "SELECT COUNT(" + columnTable + ") FROM " + tablename + " WHERE " + columnTable + " LIKE ?";
+        int cantProductos = 0;
+        try (PreparedStatement preparedStatement = Database.getConnection().prepareStatement(querry)) {
+            preparedStatement.setString(1, "%" + searchInput + "%");
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while(resultSet.next()){
+                    cantProductos = resultSet.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return cantProductos;
     }
 
     

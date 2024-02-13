@@ -4,6 +4,7 @@ import DatabaseConnection.Database;
 import DatabaseConnection.ModalDetalle_venta;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Side;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.sql.ResultSet;
@@ -14,6 +15,8 @@ public class ModalVentasController{
     private TextField textFieldCodigo;
     @FXML
     private TextField textFieldProducto;
+    @FXML
+    private ContextMenu productoContextMenu;
     @FXML
     private TextField textFieldPrecio;
     @FXML
@@ -82,9 +85,14 @@ public class ModalVentasController{
     @FXML
     protected void handleTextFieldProducto(){
         Database.establishConnection();
-        //productos = Database.querryWhereContains("producto", "NbrProducto", textFieldProducto.getText());
-        System.out.println(textFieldProducto.getText());
+        int cantProductos = Database.querryCountRows("producto", "NbrProducto", textFieldProducto.getText());
+        System.out.println(cantProductos);
         Database.closeConnection();
+    }
+
+    @FXML
+    protected void onClickTextFieldProducto(){
+        productoContextMenu.show(textFieldProducto, Side.BOTTOM, 0, 0);
     }
 
     public TextField getTextFieldCodigo() {
@@ -117,5 +125,9 @@ public class ModalVentasController{
 
     public TextField getTextFieldTotalPagar() {
         return textFieldTotalPagar;
+    }
+
+    public ContextMenu getProductoContextMenu() {
+        return productoContextMenu;
     }
 }
