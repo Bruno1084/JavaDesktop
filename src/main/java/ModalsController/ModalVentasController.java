@@ -1,8 +1,10 @@
 package ModalsController;
 
+import DatabaseConnection.Cliente;
 import DatabaseConnection.Database;
 import DatabaseConnection.ModalDetalle_venta;
 import DatabaseConnection.Producto;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
 import javafx.scene.control.*;
@@ -19,13 +21,13 @@ public class ModalVentasController{
     @FXML
     private TextField textFieldProducto;
     @FXML
-    private ContextMenu productoContextMenu;
-    @FXML
     private TextField textFieldPrecio;
     @FXML
     private TextField textFieldCantidad;
     @FXML
     private TextField textFieldStockDisp;
+    @FXML
+    private TextField textFieldMarca;
     @FXML
     private TextField textFieldClienteId;
     @FXML
@@ -33,11 +35,15 @@ public class ModalVentasController{
     @FXML
     private TextField textFieldTotalPagar;
     @FXML
+    private TextField textFieldDireccion;
+    @FXML
+    private ContextMenu productoContextMenu;
+    @FXML
+    private ContextMenu clienteContextMenu;
+    @FXML
     private Button buttonHacerCompra;
     @FXML
     private Button buttonAgregarProducto;
-    @FXML
-    private TableColumn <ModalDetalle_venta, Integer> ColumnID;
     @FXML
     private TableColumn <ModalDetalle_venta, Long> ColumnCodigo;
     @FXML
@@ -47,16 +53,20 @@ public class ModalVentasController{
     @FXML
     private TableColumn <ModalDetalle_venta, Float> ColumnPrecio;
     @FXML
+    private TableColumn <ModalDetalle_venta, String> ColumnMarca;
+    @FXML
     private TableView<ModalDetalle_venta> tableProductos;
+
     private final List<Producto> productos = new ArrayList<>();
+    private final List<Cliente> clientes = new ArrayList<>();
 
 
     public void initialize(){
-        ColumnID.setCellValueFactory(new PropertyValueFactory<>("ID"));
-        ColumnCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
-        ColumnNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        ColumnCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
-        ColumnPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
+        ColumnCodigo.setCellValueFactory(new PropertyValueFactory<>("codigoProducto"));
+        ColumnNombre.setCellValueFactory(new PropertyValueFactory<>("nombreProducto"));
+        ColumnCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidadProducto"));
+        ColumnPrecio.setCellValueFactory(new PropertyValueFactory<>("precioProducto"));
+        ColumnMarca.setCellValueFactory(new PropertyValueFactory<>("marcaProducto"));
 
     }
 
@@ -66,26 +76,31 @@ public class ModalVentasController{
         String nombreProducto = textFieldProducto.getText();
         String cantidadProductoText = textFieldCantidad.getText();
         String precioProductoText = textFieldPrecio.getText();
+        String marcaProducto = textFieldMarca.getText();
 
-
-        if (codigoProductoText.isEmpty() || nombreProducto.isEmpty() || cantidadProductoText.isEmpty() || precioProductoText.isEmpty()) {
+        if (codigoProductoText.isEmpty() || nombreProducto.isEmpty() || cantidadProductoText.isEmpty() || precioProductoText.isEmpty() || marcaProducto.isEmpty()) {
             return;
         }
 
         long codigoProducto = Long.parseLong(codigoProductoText);
-        int cantidadProducto = Integer.parseInt(cantidadProductoText);
+        int cantidadproducto = Integer.parseInt(cantidadProductoText);
         float precioProducto = Float.parseFloat(precioProductoText);
+
+        ModalDetalle_venta detalle_venta = new ModalDetalle_venta(codigoProducto, nombreProducto, cantidadproducto, precioProducto, marcaProducto);
+        tableProductos.getItems().add(detalle_venta);
 
         textFieldCodigo.setText("");
         textFieldProducto.setText("");
         textFieldCantidad.setText("");
         textFieldPrecio.setText("");
         textFieldStockDisp.setText("");
+        textFieldMarca.setText("");
+
+        calculateTotalPrice();
     }
 
     @FXML
     protected void handleTextFieldProducto(){
-        System.out.println(textFieldProducto.getText());
         Database.establishConnection();
         productoContextMenu.getItems().clear();
 
@@ -100,6 +115,21 @@ public class ModalVentasController{
         productoContextMenu.show(textFieldProducto, Side.BOTTOM, 0, 0);
     }
 
+    @FXML
+    protected void handleTextFieldNombre(){
+        Database.establishConnection();
+        clienteContextMenu.getItems().clear();
+
+        querrySearchedClientes();
+
+        Database.closeConnection();
+        onClickTextFieldCliente();
+    }
+
+    @FXML
+    protected void onClickTextFieldCliente(){
+        clienteContextMenu.show(textFieldNombre, Side.BOTTOM, 0, 0);
+    }
 
     protected void querrySearchedProductos(){
         try{
@@ -124,6 +154,7 @@ public class ModalVentasController{
                     textFieldPrecio.setText(String.valueOf(producto.getPrecio()));
                     textFieldCodigo.setText(String.valueOf(producto.getBarCodigo()));
                     textFieldStockDisp.setText(String.valueOf(producto.getStock()));
+                    textFieldMarca.setText(producto.getMarca());
                 });
                 productoContextMenu.getItems().add(itemProducto);
             }
@@ -132,4 +163,42 @@ public class ModalVentasController{
         }
     }
 
+    protected void querrySearchedClientes(){
+        try{
+            ResultSet resultSet = Database.querryWhereContains("cliente", "NbrCliente", textFieldNombre.getText());
+
+            while (resultSet.next()){
+                int id = Integer.parseInt(resultSet.getString("IdCliente"));
+                String nombre = resultSet.getString("NbrCliente");
+                String direccion = resultSet.getString("DirCliente");
+
+                Cliente cliente = new Cliente(id, nombre, direccion);
+                clientes.add(cliente);
+
+                CustomMenuItem itemCliente = new CustomMenuItem(cliente.getNombre(), cliente);
+                itemCliente.setOnAction(event -> {
+                    textFieldClienteId.setText(String.valueOf(cliente.getIdCliente()));
+                    textFieldNombre.setText(cliente.getNombre());
+                    if (cliente.getDireccion() == null){
+                        textFieldDireccion.setText("");
+                    }else{
+                        textFieldDireccion.setText(cliente.getDireccion());
+                    }
+                });
+                clienteContextMenu.getItems().add(itemCliente);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+    }
+
+    protected void calculateTotalPrice(){
+        float totalPrice = 0;
+        ObservableList<ModalDetalle_venta> listProductos = tableProductos.getItems();
+        for (ModalDetalle_venta detalleVenta: listProductos){
+            totalPrice += detalleVenta.getPrecioProducto() * detalleVenta.getCantidadProducto();
+        }
+        textFieldTotalPagar.setText(String.valueOf(totalPrice));
+    }
 }

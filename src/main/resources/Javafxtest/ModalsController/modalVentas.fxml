@@ -46,7 +46,7 @@
             </font>
          </Text>
          <TextField fx:id="textFieldStockDisp" layoutX="96.0" layoutY="67.0" prefHeight="25.0" prefWidth="88.0" />
-         <Button fx:id="buttonAgregarProducto" layoutX="575.0" layoutY="64.0" mnemonicParsing="false" onAction="#handleButtonAgregarProducto" prefHeight="30.0" prefWidth="132.0" text="Agregar Producto">
+         <Button fx:id="buttonAgregarProducto" layoutX="575.0" layoutY="103.0" mnemonicParsing="false" onAction="#handleButtonAgregarProducto" prefHeight="30.0" prefWidth="132.0" text="Agregar Producto">
             <font>
                <Font size="14.0" />
             </font>
@@ -59,27 +59,33 @@
          </Text>
          <TextField fx:id="textFieldPrecio" layoutX="625.0" layoutY="19.0" prefHeight="25.0" prefWidth="120.0" />
          <ListView fx:id="listViewProducto" layoutX="375.0" layoutY="44.0" prefHeight="148.0" prefWidth="149.0" style="-fx-border-style: solid; visibility: false;" />
+         <Text layoutX="575.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Marca:">
+            <font>
+               <Font size="14.0" />
+            </font>
+         </Text>
+         <TextField fx:id="textFieldMarca" layoutX="625.0" layoutY="67.0" />
       </Pane>
-      <TableView fx:id="tableProducto" prefHeight="330.0" prefWidth="800.0" VBox.vgrow="ALWAYS">
+      <TableView fx:id="tableProductos" prefHeight="330.0" prefWidth="800.0" VBox.vgrow="ALWAYS">
         <columns>
-          <TableColumn fx:id="ColumnID" maxWidth="100.0" prefWidth="90.0" resizable="false" text="ID" />
-          <TableColumn fx:id="ColumnCodigo" maxWidth="1.7976931348623157E308" prefWidth="175.0" resizable="false" text="Codigo" />
-            <TableColumn fx:id="ColumnNombre" maxWidth="1.7976931348623157E308" prefWidth="180.0" resizable="false" text="Nombre" />
+          <TableColumn fx:id="ColumnCodigo" maxWidth="145.0" minWidth="145.0" prefWidth="145.0" resizable="false" text="Codigo" />
+            <TableColumn fx:id="ColumnNombre" maxWidth="1.7976931348623157E308" prefWidth="205.0" resizable="false" text="Nombre" />
+            <TableColumn fx:id="ColumnMarca" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="Marca" />
             <TableColumn fx:id="ColumnCantidad" maxWidth="100.0" prefWidth="100.0" resizable="false" text="Cantidad" />
-            <TableColumn fx:id="ColumnPrecio" maxWidth="1.7976931348623157E308" prefWidth="150.0" resizable="false" text="Precio" />
-            <TableColumn prefWidth="75.0" text="Editar" />
+            <TableColumn fx:id="ColumnPrecio" maxWidth="1.7976931348623157E308" prefWidth="120.0" resizable="false" text="Precio" />
+            <TableColumn maxWidth="105.0" minWidth="105.0" prefWidth="105.0" text="Editar" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
       <Pane maxHeight="1.7976931348623157E308" prefHeight="134.0" prefWidth="800.0" VBox.vgrow="ALWAYS">
-         <Text layoutX="14.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ClienteID:">
+         <Text layoutX="14.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ClienteID:">
             <font>
                <Font size="15.0" />
             </font>
          </Text>
-         <Text layoutX="14.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre:">
+         <Text layoutX="18.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre:">
             <font>
                <Font size="14.0" />
             </font>
@@ -89,14 +95,27 @@
                <Font size="14.0" />
             </font>
          </Text>
-         <Button fx:id="buttonHacerCompra" layoutX="334.0" layoutY="48.0" mnemonicParsing="false" text="Hacer Compra">
+         <Button fx:id="buttonHacerCompra" layoutX="659.0" layoutY="48.0" mnemonicParsing="false" text="Hacer Compra">
             <font>
                <Font size="14.0" />
             </font>
          </Button>
-         <TextField fx:id="textFieldClienteId" layoutX="84.0" layoutY="12.0" prefHeight="25.0" prefWidth="88.0" />
-         <TextField fx:id="textFieldNombre" layoutX="84.0" layoutY="50.0" />
+         <TextField fx:id="textFieldClienteId" layoutX="84.0" layoutY="51.0" prefHeight="25.0" prefWidth="88.0" />
+         <TextField fx:id="textFieldNombre" layoutX="78.0" layoutY="13.0" onKeyReleased="#handleTextFieldNombre" onMouseClicked="#onClickTextFieldCliente">
+            <contextMenu>
+               <ContextMenu fx:id="clienteContextMenu">
+                 <items>
+                   <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                 </items>
+               </ContextMenu>
+            </contextMenu></TextField>
          <TextField fx:id="textFieldTotalPagar" layoutX="426.0" layoutY="12.0" />
+         <Text layoutX="334.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dirección:">
+            <font>
+               <Font size="14.0" />
+            </font>
+         </Text>
+         <TextField fx:id="textFieldDireccion" layoutX="400.0" layoutY="50.0" prefHeight="25.0" prefWidth="176.0" />
       </Pane>
    </VBox>
 </AnchorPane>

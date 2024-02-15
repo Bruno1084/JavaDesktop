@@ -1,22 +1,18 @@
 package DatabaseConnection;
 
 public class ModalDetalle_venta {
-    private final int idProducto;
     private final long codigoProducto;
     private final String nombreProducto;
     private final int cantidadProducto;
     private final float precioProducto;
+    private final String marcaProducto;
 
-    public ModalDetalle_venta(int idProducto, long codigoProducto, String nombreProducto, int cantidadProducto, float precioProducto){
-        this.idProducto = idProducto;
+    public ModalDetalle_venta(long codigoProducto, String nombreProducto, int cantidadProducto, float precioProducto, String marcaProducto){
         this.codigoProducto = codigoProducto;
         this.nombreProducto = nombreProducto;
         this.cantidadProducto = cantidadProducto;
         this.precioProducto = precioProducto;
-    }
-
-    public int getIdProducto() {
-        return idProducto;
+        this.marcaProducto = marcaProducto;
     }
 
     public long getCodigoProducto() {
@@ -35,4 +31,7 @@ public class ModalDetalle_venta {
         return precioProducto;
     }
 
+    public String getMarcaProducto() {
+        return marcaProducto;
+    }
 }
