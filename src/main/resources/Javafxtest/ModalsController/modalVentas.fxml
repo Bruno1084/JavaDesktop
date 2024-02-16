@@ -90,7 +90,7 @@
                <Font size="14.0" />
             </font>
          </Text>
-         <Text layoutX="334.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total a Pagar:">
+         <Text layoutX="302.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total a Pagar:">
             <font>
                <Font size="14.0" />
             </font>
@@ -109,13 +109,28 @@
                  </items>
                </ContextMenu>
             </contextMenu></TextField>
-         <TextField fx:id="textFieldTotalPagar" layoutX="426.0" layoutY="12.0" />
-         <Text layoutX="334.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dirección:">
+         <TextField fx:id="textFieldTotalPagar" layoutX="406.0" layoutY="13.0" />
+         <Text layoutX="302.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dirección:">
             <font>
                <Font size="14.0" />
             </font>
          </Text>
-         <TextField fx:id="textFieldDireccion" layoutX="400.0" layoutY="50.0" prefHeight="25.0" prefWidth="176.0" />
+         <TextField fx:id="textFieldDireccion" layoutX="372.0" layoutY="51.0" prefHeight="25.0" prefWidth="176.0" />
+         <Text layoutX="618.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pago:">
+            <font>
+               <Font size="14.0" />
+            </font>
+         </Text>
+         <TextField fx:id="textFieldPago" layoutX="659.0" layoutY="15.0" onMouseClicked="#onClickTextFieldPago" prefHeight="25.0" prefWidth="114.0">
+            <contextMenu>
+               <ContextMenu fx:id="pagoContextMenu">
+                 <items>
+                     <MenuItem fx:id="transferenciaMenuItem" mnemonicParsing="false" text="Transferencia" />
+                     <MenuItem fx:id="efectivoMenuItem" mnemonicParsing="false" text="Efectivo" />
+                 </items>
+               </ContextMenu>
+            </contextMenu>
+         </TextField>
       </Pane>
    </VBox>
 </AnchorPane>

@@ -1,10 +1,9 @@
 package ModalsController;
 
-import DatabaseConnection.Cliente;
-import DatabaseConnection.Database;
-import DatabaseConnection.ModalDetalle_venta;
-import DatabaseConnection.Producto;
+import DatabaseConnection.*;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
 import javafx.scene.control.*;
@@ -37,9 +36,13 @@ public class ModalVentasController{
     @FXML
     private TextField textFieldDireccion;
     @FXML
+    private TextField textFieldPago;
+    @FXML
     private ContextMenu productoContextMenu;
     @FXML
     private ContextMenu clienteContextMenu;
+    @FXML
+    private ContextMenu pagoContextMenu;
     @FXML
     private Button buttonHacerCompra;
     @FXML
@@ -100,6 +103,23 @@ public class ModalVentasController{
     }
 
     @FXML
+    protected void handleButtonHacerCompra(){
+        int idCliente = Integer.parseInt(textFieldClienteId.getText());
+        String nombreCliente = textFieldNombre.getText();
+        String dirCliente = textFieldDireccion.getText();
+
+        if (textFieldClienteId.getText().isEmpty() || textFieldNombre.getText().isEmpty() || textFieldDireccion.getText().isEmpty()){
+            return;
+        }
+
+        Cliente cliente = new Cliente(idCliente, nombreCliente, dirCliente);
+
+        textFieldClienteId.setText("");
+        textFieldNombre.setText("");
+        textFieldDireccion.setText("");
+    }
+
+    @FXML
     protected void handleTextFieldProducto(){
         Database.establishConnection();
         productoContextMenu.getItems().clear();
@@ -131,6 +151,19 @@ public class ModalVentasController{
         clienteContextMenu.show(textFieldNombre, Side.BOTTOM, 0, 0);
     }
 
+    @FXML
+    protected void onClickTextFieldPago(){
+        pagoContextMenu.show(textFieldPago, Side.BOTTOM, 0, 0);
+
+        pagoContextMenu.getItems().forEach(menuItem -> {
+            menuItem.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    textFieldPago.setText(menuItem.getText());
+                }
+            });
+        });
+    }
     protected void querrySearchedProductos(){
         try{
             ResultSet resultSet = Database.querryWhereContains("producto", "NbrProducto", textFieldProducto.getText());
@@ -200,5 +233,14 @@ public class ModalVentasController{
             totalPrice += detalleVenta.getPrecioProducto() * detalleVenta.getCantidadProducto();
         }
         textFieldTotalPagar.setText(String.valueOf(totalPrice));
+    }
+
+    protected void createVentaRecord(){
+        int idCliente = Integer.parseInt(textFieldClienteId.getText());
+        String nombreCliente = textFieldNombre.getText();
+        String dirCliente = textFieldDireccion.getText();
+        float precioTotal = Float.parseFloat(textFieldTotalPagar.getText());
+
+        //Venta venta = new Venta(0, idCliente, precioTotal, );
     }
 }

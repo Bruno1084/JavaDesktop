@@ -11,7 +11,7 @@ public class Venta {
     private Date fecha;
 
 
-    public void Venta(int idVenta, int idCliente, float precioTotal, String tipoPago, boolean isPagado, Date fecha){
+    public Venta(int idVenta, int idCliente, float precioTotal, String tipoPago, boolean isPagado, Date fecha){
         this.idVenta = idVenta;
         this.idCliente = idCliente;
         this.precioTotal = precioTotal;
