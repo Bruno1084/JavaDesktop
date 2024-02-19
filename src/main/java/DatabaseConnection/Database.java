@@ -72,5 +72,53 @@ public class Database {
         return cantProductos;
     }
 
+    public static int insertVenta(int idCliente, float precioTotal, String tipoPago, boolean isPagado, Date fechaVenta){
+        String querry = "INSERT INTO venta(IdCliente, PrecTotalVenta, TPagoVenta, PagVenta, FechVenta)" +
+                        "VALUES (?, ?, ?, ?, ?)";
+        ResultSet resultSet;
+        int idVenta = 0;
+
+        try{
+            PreparedStatement preparedStatement = Database.getConnection().prepareStatement(querry, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setInt(1, idCliente);
+            preparedStatement.setFloat(2, precioTotal);
+            preparedStatement.setString(3, tipoPago);
+            preparedStatement.setBoolean(4, isPagado);
+            preparedStatement.setDate(5, fechaVenta);
+            preparedStatement.executeUpdate();
+
+            resultSet = preparedStatement.getGeneratedKeys();
+
+            while (resultSet.next()){
+                System.out.println("IdVenta inserted: " + resultSet.getInt(1));
+                idVenta = resultSet.getInt(1);
+            }
+
+            System.out.println("Venta ingresada en la base de datos");
+        }catch (SQLException exception){
+            System.out.println("Error on database method insertVenta()");
+            exception.printStackTrace();
+        }
+        return idVenta;
+    }
+
+    public static void insertDetalle_venta( int idVenta, int idProducto, int cantidad){
+        String querry = "INSERT INTO detalle_venta(IdVenta, IdProducto, CantVenta_detalle)" +
+                        "VALUES (?, ?, ?)";
+
+        try{
+            PreparedStatement preparedStatement = Database.getConnection().prepareStatement(querry);
+            preparedStatement.setInt(1, idVenta);
+            preparedStatement.setInt(2, idProducto);
+            preparedStatement.setInt(3, cantidad);
+            preparedStatement.executeUpdate();
+
+            System.out.println("Detalle_venta added to Database");
+        }catch (SQLException exception){
+            System.out.println("There is an error on insertDetalle_venta()");
+            exception.printStackTrace();
+        }
+    }
+
     
 }

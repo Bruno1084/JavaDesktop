@@ -1,6 +1,6 @@
 package DatabaseConnection;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Venta {
     private int idVenta;
@@ -8,16 +8,16 @@ public class Venta {
     private float precioTotal;
     private String tipoPago;
     private boolean isPagado;
-    private Date fecha;
+    private java.sql.Date fecha;
 
 
-    public Venta(int idVenta, int idCliente, float precioTotal, String tipoPago, boolean isPagado, Date fecha){
+    public Venta(int idVenta, int idCliente, float precioTotal, String tipoPago, boolean isPagado){
         this.idVenta = idVenta;
         this.idCliente = idCliente;
         this.precioTotal = precioTotal;
         this.tipoPago = tipoPago;
         this.isPagado = isPagado;
-        this.fecha = fecha;
+        this.fecha = new java.sql.Date(System.currentTimeMillis());
     }
 
     public int getIdVenta() {

@@ -6,7 +6,7 @@ public class Detalle_venta{
     private int idProducto;
     private int cantidad;
 
-    public void Detalle_venta(int idDetalle_venta, int idVenta, int idProducto, int cantidad){
+    public Detalle_venta(int idDetalle_venta, int idVenta, int idProducto, int cantidad){
         this.idDetalle_venta = idDetalle_venta;
         this.idVenta = idVenta;
         this.idProducto = idProducto;

@@ -95,7 +95,7 @@
                <Font size="14.0" />
             </font>
          </Text>
-         <Button fx:id="buttonHacerCompra" layoutX="659.0" layoutY="48.0" mnemonicParsing="false" text="Hacer Compra">
+         <Button fx:id="buttonHacerCompra" layoutX="659.0" layoutY="48.0" mnemonicParsing="false" onMouseClicked="#handleButtonHacerCompra" text="Hacer Compra">
             <font>
                <Font size="14.0" />
             </font>
@@ -103,11 +103,7 @@
          <TextField fx:id="textFieldClienteId" layoutX="84.0" layoutY="51.0" prefHeight="25.0" prefWidth="88.0" />
          <TextField fx:id="textFieldNombre" layoutX="78.0" layoutY="13.0" onKeyReleased="#handleTextFieldNombre" onMouseClicked="#onClickTextFieldCliente">
             <contextMenu>
-               <ContextMenu fx:id="clienteContextMenu">
-                 <items>
-                   <MenuItem mnemonicParsing="false" text="Unspecified Action" />
-                 </items>
-               </ContextMenu>
+               <ContextMenu fx:id="clienteContextMenu" />
             </contextMenu></TextField>
          <TextField fx:id="textFieldTotalPagar" layoutX="406.0" layoutY="13.0" />
          <Text layoutX="302.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dirección:">

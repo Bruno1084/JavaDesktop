@@ -2,8 +2,6 @@ package ModalsController;
 
 import DatabaseConnection.*;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
 import javafx.scene.control.*;
@@ -12,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static DatabaseConnection.Database.insertDetalle_venta;
 
 
 public class ModalVentasController{
@@ -107,16 +107,21 @@ public class ModalVentasController{
         int idCliente = Integer.parseInt(textFieldClienteId.getText());
         String nombreCliente = textFieldNombre.getText();
         String dirCliente = textFieldDireccion.getText();
+        int idVenta;
 
         if (textFieldClienteId.getText().isEmpty() || textFieldNombre.getText().isEmpty() || textFieldDireccion.getText().isEmpty()){
             return;
         }
 
         Cliente cliente = new Cliente(idCliente, nombreCliente, dirCliente);
+        idVenta = createVentaRecord(cliente);
+        createDetalle_ventaRecord(idVenta, cliente);
 
         textFieldClienteId.setText("");
         textFieldNombre.setText("");
         textFieldDireccion.setText("");
+        textFieldTotalPagar.setText("");
+        textFieldPago.setText("");
     }
 
     @FXML
@@ -155,15 +160,9 @@ public class ModalVentasController{
     protected void onClickTextFieldPago(){
         pagoContextMenu.show(textFieldPago, Side.BOTTOM, 0, 0);
 
-        pagoContextMenu.getItems().forEach(menuItem -> {
-            menuItem.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    textFieldPago.setText(menuItem.getText());
-                }
-            });
-        });
+        pagoContextMenu.getItems().forEach(menuItem -> menuItem.setOnAction(event -> textFieldPago.setText(menuItem.getText())));
     }
+
     protected void querrySearchedProductos(){
         try{
             ResultSet resultSet = Database.querryWhereContains("producto", "NbrProducto", textFieldProducto.getText());
@@ -235,12 +234,36 @@ public class ModalVentasController{
         textFieldTotalPagar.setText(String.valueOf(totalPrice));
     }
 
-    protected void createVentaRecord(){
-        int idCliente = Integer.parseInt(textFieldClienteId.getText());
-        String nombreCliente = textFieldNombre.getText();
-        String dirCliente = textFieldDireccion.getText();
+    protected int createVentaRecord(Cliente cliente){
         float precioTotal = Float.parseFloat(textFieldTotalPagar.getText());
+        String tipoPago = textFieldPago.getText();
+        int idVenta;
 
-        //Venta venta = new Venta(0, idCliente, precioTotal, );
+        Venta venta = new Venta(0, cliente.getIdCliente(), precioTotal, tipoPago, false);
+
+        Database.establishConnection();
+        idVenta = Database.insertVenta(cliente.getIdCliente(), precioTotal, tipoPago, false, venta.getFecha());
+        Database.closeConnection();
+
+        return idVenta;
+    }
+
+    protected void createDetalle_ventaRecord(int idVenta, Cliente cliente){
+        Database.establishConnection();
+        tableProductos.getItems().forEach(producto -> {
+            ResultSet resultSet = Database.querryWhereContains("producto", "CodBarraProducto", String.valueOf(producto.getCodigoProducto()));
+
+            try{
+                resultSet.next();
+                int idProducto = resultSet.getInt(1);
+                System.out.println("Id de producto en createDetalle_ventaRecord: "+ idProducto);
+                insertDetalle_venta(idVenta, idProducto, producto.getCantidadProducto());
+            }catch (SQLException exception){
+                System.out.println("There is an error in createDetalle_ventaRecord()");
+                Database.closeConnection();
+                exception.printStackTrace();
+            }
+        });
+        Database.closeConnection();
     }
 }
