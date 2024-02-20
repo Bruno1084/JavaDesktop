@@ -3,33 +3,38 @@ package DatabaseConnection;
 import java.sql.Date;
 
 public class Venta {
-    private int idVenta;
-    private int idCliente;
-    private float precioTotal;
-    private String tipoPago;
-    private boolean isPagado;
-    private java.sql.Date fecha;
+    private final int id;
+    private final int idCliente;
+    private final String nombreCliente;
+    private final float precio;
+    private final String tipoPago;
+    private final boolean pagado;
+    private final java.sql.Date fecha;
 
-
-    public Venta(int idVenta, int idCliente, float precioTotal, String tipoPago, boolean isPagado){
-        this.idVenta = idVenta;
+    public Venta(int id, int idCliente, String nombreCliente, float precio, String tipoPago, boolean pagado, Date fecha){
+        this.id = id;
         this.idCliente = idCliente;
-        this.precioTotal = precioTotal;
+        this.nombreCliente = nombreCliente;
+        this.precio = precio;
         this.tipoPago = tipoPago;
-        this.isPagado = isPagado;
-        this.fecha = new java.sql.Date(System.currentTimeMillis());
+        this.pagado = pagado;
+        this.fecha = fecha;
     }
 
-    public int getIdVenta() {
-        return idVenta;
+    public int getId() {
+        return id;
     }
 
     public int getIdCliente() {
         return idCliente;
     }
 
-    public float getPrecioTotal() {
-        return precioTotal;
+    public String getNombreCliente() {
+        return nombreCliente;
+    }
+
+    public float getPrecio() {
+        return precio;
     }
 
     public String getTipoPago() {
@@ -37,12 +42,10 @@ public class Venta {
     }
 
     public boolean isPagado() {
-        return isPagado;
+        return pagado;
     }
 
     public Date getFecha() {
         return fecha;
     }
-
-
 }

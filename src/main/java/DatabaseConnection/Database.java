@@ -33,8 +33,6 @@ public class Database {
         try {
             PreparedStatement preparedStatement = Database.getConnection().prepareStatement(querry);
             resultSet = preparedStatement.executeQuery();
-
-            System.out.println(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -56,6 +54,24 @@ public class Database {
         return resultSet;
     }
 
+    public static ResultSet querryInnerJoin(String[] columns, String leftTable, String rightTable, String leftJoin, String rightJoin){
+        String querryColumns = String.join(", ", columns);
+        String querry = "SELECT " + querryColumns +
+                        " FROM " + leftTable + " INNER JOIN " +
+                        rightTable + " ON " + leftTable + "." + leftJoin + " = " +
+                        rightTable + "." + rightJoin;
+        ResultSet resultSet = null;
+        try{
+            PreparedStatement preparedStatement = Database.getConnection().prepareStatement(querry);
+            resultSet = preparedStatement.executeQuery();
+
+            System.out.println("QuerryInnerJoin method executed");
+        }catch (SQLException exception){
+            System.out.println("There is an error on QuerryInnerJoin method");
+            exception.printStackTrace();
+        }
+        return resultSet;
+    }
     public static int querryCountRows(String tablename, String columnTable, String searchInput){
         String querry = "SELECT COUNT(" + columnTable + ") FROM " + tablename + " WHERE " + columnTable + " LIKE ?";
         int cantProductos = 0;
@@ -120,5 +136,4 @@ public class Database {
         }
     }
 
-    
 }

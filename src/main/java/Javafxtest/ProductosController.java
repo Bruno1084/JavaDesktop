@@ -54,16 +54,17 @@ public class ProductosController {
 
         try{
             while (resultSet.next()){
-                int id = Integer.parseInt(resultSet.getString("IdProducto"));
-                long barCodigo = Long.parseLong(resultSet.getString("CodBarraProducto"));
+                int id = resultSet.getInt("IdProducto");
+                long barCodigo = resultSet.getLong("CodBarraProducto");
                 String nombre = resultSet.getString("NbrProducto");
-                float precio = Float.parseFloat(resultSet.getString("PrecProducto"));
-                int stock = Integer.parseInt(resultSet.getString("StockProducto"));
+                float precio = resultSet.getLong("PrecProducto");
+                int stock = resultSet.getInt("StockProducto");
                 String marca = resultSet.getString("MarcProducto");
                 String categoria = resultSet.getString("CatProducto");
                 String ctoNeto = resultSet.getString("CNetoProducto");
 
                 data.add(new Producto(id, barCodigo, nombre, precio, stock, marca, categoria, ctoNeto));
+
             }
         }catch (SQLException e){
             Database.closeConnection();

@@ -6,11 +6,12 @@ import javafx.fxml.FXML;
 import javafx.geometry.Side;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import static DatabaseConnection.Database.insertDetalle_venta;
 
 
@@ -115,7 +116,7 @@ public class ModalVentasController{
 
         Cliente cliente = new Cliente(idCliente, nombreCliente, dirCliente);
         idVenta = createVentaRecord(cliente);
-        createDetalle_ventaRecord(idVenta, cliente);
+        createDetalle_ventaRecord(idVenta);
 
         textFieldClienteId.setText("");
         textFieldNombre.setText("");
@@ -238,8 +239,10 @@ public class ModalVentasController{
         float precioTotal = Float.parseFloat(textFieldTotalPagar.getText());
         String tipoPago = textFieldPago.getText();
         int idVenta;
+        Date fecha = new Date(System.currentTimeMillis());
 
-        Venta venta = new Venta(0, cliente.getIdCliente(), precioTotal, tipoPago, false);
+
+        Venta venta = new Venta(0, cliente.getIdCliente(), cliente.getNombre(), precioTotal, tipoPago, false, fecha);
 
         Database.establishConnection();
         idVenta = Database.insertVenta(cliente.getIdCliente(), precioTotal, tipoPago, false, venta.getFecha());
@@ -248,7 +251,7 @@ public class ModalVentasController{
         return idVenta;
     }
 
-    protected void createDetalle_ventaRecord(int idVenta, Cliente cliente){
+    protected void createDetalle_ventaRecord(int idVenta){
         Database.establishConnection();
         tableProductos.getItems().forEach(producto -> {
             ResultSet resultSet = Database.querryWhereContains("producto", "CodBarraProducto", String.valueOf(producto.getCodigoProducto()));
