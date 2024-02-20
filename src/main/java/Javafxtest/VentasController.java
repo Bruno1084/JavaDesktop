@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.Date;
@@ -19,7 +20,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class VentasController {
-
+    @FXML
+    private Text ventasTotales_Text;
     @FXML
     private TableView <Venta> tableVentas;
     @FXML
@@ -59,6 +61,8 @@ public class VentasController {
         ObservableList <Venta> ventas = loadVentasData(resultSet);
         tableVentas.setItems(ventas);
         Database.closeConnection();
+
+        handleTotalVentas_Dia();
     }
 
     @FXML
@@ -73,7 +77,29 @@ public class VentasController {
         }
     }
 
-    public ObservableList<Venta> loadVentasData(ResultSet resultSet){
+    @FXML
+    protected void handleTotalVentas_Dia(){
+        Database.establishConnection();
+        int ventasDia =  Database.countSellsByPeriod("D");
+        Database.closeConnection();
+        ventasTotales_Text.setText(String.valueOf(ventasDia));
+    }
+    @FXML
+    protected void handleTotalVentas_Mes(){
+        Database.establishConnection();
+        int ventasMes = Database.countSellsByPeriod("M");
+        Database.closeConnection();
+        ventasTotales_Text.setText(String.valueOf(ventasMes));
+    }
+    @FXML
+    protected void handleTotalVentas_Año(){
+        Database.establishConnection();
+        int ventasAño = Database.countSellsByPeriod("A");
+        Database.closeConnection();
+        ventasTotales_Text.setText(String.valueOf(ventasAño));
+    }
+
+    public static ObservableList<Venta> loadVentasData(ResultSet resultSet){
         ObservableList <Venta> data = FXCollections.observableArrayList();
 
         try{

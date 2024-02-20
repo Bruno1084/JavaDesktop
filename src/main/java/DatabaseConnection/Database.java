@@ -64,14 +64,13 @@ public class Database {
         try{
             PreparedStatement preparedStatement = Database.getConnection().prepareStatement(querry);
             resultSet = preparedStatement.executeQuery();
-
-            System.out.println("QuerryInnerJoin method executed");
         }catch (SQLException exception){
             System.out.println("There is an error on QuerryInnerJoin method");
             exception.printStackTrace();
         }
         return resultSet;
     }
+
     public static int querryCountRows(String tablename, String columnTable, String searchInput){
         String querry = "SELECT COUNT(" + columnTable + ") FROM " + tablename + " WHERE " + columnTable + " LIKE ?";
         int cantProductos = 0;
@@ -134,6 +133,38 @@ public class Database {
             System.out.println("There is an error on insertDetalle_venta()");
             exception.printStackTrace();
         }
+    }
+
+    public static int countSellsByPeriod(String periodo){
+        String querry = "SELECT VentasPorPeriodo('" + periodo + "')";
+        ResultSet resultSet = null;
+        int cantVentas = 0;
+        try{
+            PreparedStatement preparedStatement = Database.getConnection().prepareStatement(querry);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                cantVentas = resultSet.getInt(1);
+            }
+        }catch (SQLException exception){
+            exception.printStackTrace();
+        }
+        return cantVentas;
+    }
+
+    public static float countIncomeByPeriod(String periodo){
+        String querry = "SELECT VentasPorPeriodo(" + periodo + ")";
+        ResultSet resultSet = null;
+        float cantVentas = 0;
+        try{
+            PreparedStatement preparedStatement = Database.getConnection().prepareStatement(querry);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                cantVentas = resultSet.getFloat(1);
+            }
+        }catch (SQLException exception){
+            exception.printStackTrace();
+        }
+        return cantVentas;
     }
 
 }

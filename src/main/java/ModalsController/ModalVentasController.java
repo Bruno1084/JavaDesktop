@@ -1,6 +1,8 @@
 package ModalsController;
 
 import DatabaseConnection.*;
+import Javafxtest.ProductosController;
+import Javafxtest.VentasController;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
