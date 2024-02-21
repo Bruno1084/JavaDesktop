@@ -5,6 +5,7 @@ import DatabaseConnection.Producto;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -12,7 +13,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ProductosController {
-
+    @FXML
+    PieChart pieChartProductos;
     @FXML
     private TableView <Producto> tableProductos;
     @FXML
@@ -46,7 +48,14 @@ public class ProductosController {
         ResultSet resultSet = Database.querryAllFromTable("producto");
         ObservableList <Producto> data = loadProductData(resultSet);
         tableProductos.setItems(data);
+
+        ResultSet pieProductos = Database.querryProductsByGroup();
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+
+        loadPieChartProduct(pieChartData, pieProductos);
         Database.closeConnection();
+
+
     }
 
     private ObservableList<Producto> loadProductData(ResultSet resultSet){
@@ -73,5 +82,21 @@ public class ProductosController {
         return data;
     }
 
+    private void loadPieChartProduct(ObservableList<PieChart.Data> pieChartData, ResultSet resultSet){
+        try {
+            while (resultSet.next()){
+                String categoria = resultSet.getString(1);
+                int cantProductos = resultSet.getInt(2);
+
+                pieChartData.add(new PieChart.Data(categoria, cantProductos));
+            }
+            pieChartProductos.setData(pieChartData);
+
+        }catch (SQLException exception){
+            System.out.println("There is an error on loadPieChartProduct method");
+            exception.printStackTrace();
+        }
+
+    }
 
 }

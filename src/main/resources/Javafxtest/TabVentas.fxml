@@ -47,7 +47,7 @@
                   </HBox>
                   <Pane prefHeight="277.0" prefWidth="323.0" style="-fx-border-style: dashed;">
                      <Pane layoutX="22.0" layoutY="40.0" prefHeight="207.0" prefWidth="279.0" style="-fx-border-style: dashed; -fx-border-radius: 8;">
-                        <Text fx:id="ventasTotales_Text" layoutX="139.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
+                        <Text fx:id="ventasTotales_Text" layoutX="40.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="200.0">
                            <font>
                               <Font size="25.0" />
                            </font>

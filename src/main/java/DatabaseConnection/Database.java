@@ -71,6 +71,17 @@ public class Database {
         return resultSet;
     }
 
+    public static ResultSet querryProductsByGroup(){
+        String querry = "SELECT DISTINCT CatProducto, COUNT(*) FROM producto GROUP BY CatProducto";
+        ResultSet resultSet = null;
+        try {
+            PreparedStatement preparedStatement = Database.getConnection().prepareStatement(querry);
+            resultSet = preparedStatement.executeQuery();
+        }catch (SQLException exception){
+            exception.printStackTrace();
+        }
+        return resultSet;
+    }
     public static int querryCountRows(String tablename, String columnTable, String searchInput){
         String querry = "SELECT COUNT(" + columnTable + ") FROM " + tablename + " WHERE " + columnTable + " LIKE ?";
         int cantProductos = 0;
@@ -152,7 +163,7 @@ public class Database {
     }
 
     public static float countIncomeByPeriod(String periodo){
-        String querry = "SELECT VentasPorPeriodo(" + periodo + ")";
+        String querry = "SELECT TotalVentasPorPeriodo('" + periodo + "')";
         ResultSet resultSet = null;
         float cantVentas = 0;
         try{

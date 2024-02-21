@@ -1,5 +1,6 @@
 package Javafxtest;
 
+import DatabaseConnection.Database;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
@@ -30,6 +31,10 @@ public class InicioController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         listenerSearchBar();
 
+        Database.establishConnection();
+        daySellingsText.setText("$ "+ String.valueOf(Database.countIncomeByPeriod("D")));
+        monthSellingsText.setText("$ "+ String.valueOf(Database.countIncomeByPeriod("M")));
+        Database.closeConnection();
     }
 
     public void listenerSearchBar(){
