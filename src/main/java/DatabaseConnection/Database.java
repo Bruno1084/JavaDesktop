@@ -178,4 +178,18 @@ public class Database {
         return cantVentas;
     }
 
+    public static ResultSet querrySellsByPeriod(String periodo){
+        String querry = "SELECT "+ periodo +" (FechVenta) AS Periodo, SUM(PrecTotalVenta) AS Total FROM Venta GROUP BY "+ periodo +"(FechVenta) ORDER BY Periodo";
+        ResultSet resultSet = null;
+        try {
+            PreparedStatement preparedStatement = Database.getConnection().prepareStatement(querry);
+            resultSet = preparedStatement.executeQuery();
+        }catch (SQLException exception){
+            System.out.println("There is an error on querrySellsByPeriod");
+            exception.printStackTrace();
+        }
+
+        return resultSet;
+    }
+
 }

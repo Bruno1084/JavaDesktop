@@ -1,17 +1,36 @@
 package Javafxtest;
 
 import DatabaseConnection.Database;
+import DatabaseConnection.Venta;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Calendar;
 
-public class InicioController implements Initializable {
+public class InicioController{
+    @FXML
+    private TableView <Venta> tableVentas;
+    @FXML
+    private TableColumn<Venta, Integer> ColumnID;
+    @FXML
+    private TableColumn <Venta, String> ColumnNombre;
+    @FXML
+    private TableColumn <Venta, Float> ColumnPrecio;
+    @FXML
+    private TableColumn <Venta, String> ColumnTipoPago;
+    @FXML
+    private  TableColumn <Venta, Boolean> ColumnPagado;
+    @FXML
+    private TableColumn <Venta, Date> ColumnFecha;
 
     @FXML
     private TextField searchBar;
@@ -21,25 +40,83 @@ public class InicioController implements Initializable {
     private Text daySellingsText;
     @FXML
     private Text monthSellingsText;
+
     @FXML
-    private LineChart graphChart;
+    private final NumberAxis xAxis = new NumberAxis();
     @FXML
-    private TableView tableVentas;
+    private final NumberAxis yAxis = new NumberAxis();
+    @FXML
+    private LineChart<Number, Number> graphChart = new LineChart<>(xAxis, yAxis);
 
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        listenerSearchBar();
+    public void initialize() {
+        ColumnID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        ColumnNombre.setCellValueFactory(new PropertyValueFactory<>("nombreCliente"));
+        ColumnPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
+        ColumnTipoPago.setCellValueFactory(new PropertyValueFactory<>("tipoPago"));
+        ColumnPagado.setCellValueFactory(new PropertyValueFactory<>("pagado"));
+        ColumnFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+
+        String [] columns = {"IdVenta", "venta.IdCliente", "NbrCliente", "PrecTotalVenta", "TPagoVenta", "PagVenta", "FechVenta"};
+        String venta = "venta";
+        String cliente = "cliente";
+        String leftJoin = "IdCliente";
+        String rightJoin = "IdCliente";
+
 
         Database.establishConnection();
-        daySellingsText.setText("$ "+ String.valueOf(Database.countIncomeByPeriod("D")));
-        monthSellingsText.setText("$ "+ String.valueOf(Database.countIncomeByPeriod("M")));
+        ResultSet resultSet = Database.querryInnerJoin(columns, venta, cliente, leftJoin, rightJoin);
+        ObservableList<Venta> ventas = loadVentasData(resultSet);
+        daySellingsText.setText("$ "+ Database.countIncomeByPeriod("D"));
+        monthSellingsText.setText("$ "+ Database.countIncomeByPeriod("M"));
+        tableVentas.setItems(ventas);
+
+        ResultSet sellsByPeriod = Database.querrySellsByPeriod("MONTH");
+        loadLineChart(sellsByPeriod);
         Database.closeConnection();
+
     }
 
     public void listenerSearchBar(){
-        searchBar.textProperty().addListener((observable, oldValue, newValue) -> {
 
-        });
+    }
+
+    public ObservableList<Venta> loadVentasData(ResultSet resultSet){
+        ObservableList <Venta> data = FXCollections.observableArrayList();
+
+        try{
+            while (resultSet.next()){
+                int idVenta = resultSet.getInt("IdVenta");
+                int idCliente = resultSet.getInt("IdCliente");
+                String nombreCliente = resultSet.getString("NbrCliente");
+                float precio = resultSet.getFloat("PrecTotalVenta");
+                String tipoPago = resultSet.getString("TPagoVenta");
+                boolean pagado = resultSet.getBoolean("PagVenta");
+                Date fecha = resultSet.getDate("FechVenta");
+
+                data.add(new Venta(idVenta, idCliente, nombreCliente, precio, tipoPago, pagado, fecha));
+            }
+        }catch (SQLException exception){
+            System.out.println("There is an error on method loadVentasData()");
+            Database.closeConnection();
+            exception.printStackTrace();
+        }
+        return data;
+    }
+
+    public void loadLineChart(ResultSet resultSet){
+        XYChart.Series series = new XYChart.Series();
+        Calendar calendar = Calendar.getInstance();
+        try {
+            while (resultSet.next()){
+                int mes = resultSet.getInt(1);
+                float total = resultSet.getFloat(2);
+
+                series.getData().add(new XYChart.Data(mes, total));
+            }
+        }catch (SQLException exception){
+            exception.printStackTrace();
+        }
+        graphChart.getData().add(series);
     }
 }
