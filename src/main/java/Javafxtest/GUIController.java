@@ -13,7 +13,7 @@ public class GUIController {
     @FXML
     private ProductosController productosController;
     @FXML
-    private ComprasController comprasController;
+    private ClientesController clientesController;
     @FXML
     private CalendarioController calendarioController;
 
@@ -26,7 +26,7 @@ public class GUIController {
     @FXML
     private Button btnProductos;
     @FXML
-    private Button btnCompras;
+    private Button btnClientes;
     @FXML
     private Button btnCalendario;
 
@@ -49,7 +49,7 @@ public class GUIController {
         mainTabPane.getSelectionModel().select(2);
     }
     @FXML
-    protected void handleBtnCompras(ActionEvent event){
+    protected void handleBtnClientes(ActionEvent event){
         mainTabPane.getSelectionModel().select(3);
     }
     @FXML

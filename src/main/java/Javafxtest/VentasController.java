@@ -109,10 +109,10 @@ public class VentasController {
                 String nombreCliente = resultSet.getString("NbrCliente");
                 float precio = resultSet.getFloat("PrecTotalVenta");
                 String tipoPago = resultSet.getString("TPagoVenta");
-                boolean pagado = resultSet.getBoolean("PagVenta");
+                boolean isPagado = resultSet.getBoolean("PagVenta");
                 Date fecha = resultSet.getDate("FechVenta");
 
-                data.add(new Venta(idVenta, idCliente, nombreCliente, precio, tipoPago, pagado, fecha));
+                data.add(new Venta(idVenta, idCliente, nombreCliente, precio, tipoPago, isPagado, fecha));
             }
         }catch (SQLException exception){
             System.out.println("There is an error on method loadVentasData()");

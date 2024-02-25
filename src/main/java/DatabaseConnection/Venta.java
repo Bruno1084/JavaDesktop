@@ -41,7 +41,7 @@ public class Venta {
         return tipoPago;
     }
 
-    public boolean isPagado() {
+    public boolean getPagado() {
         return pagado;
     }
 

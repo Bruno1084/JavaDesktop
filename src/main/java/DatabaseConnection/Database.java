@@ -50,7 +50,20 @@ public class Database {
         }catch (SQLException e){
             e.printStackTrace();
         }
+        return resultSet;
+    }
 
+    public static ResultSet querryWhereEquals(String tableName, String columnTable, String searchInput){
+        String querry = "SELECT * FROM " + tableName + " WHERE " + columnTable + " = ?";
+        ResultSet resultSet = null;
+        try{
+            PreparedStatement preparedStatement = Database.getConnection().prepareStatement(querry);
+            preparedStatement.setString(1, searchInput);
+            resultSet = preparedStatement.executeQuery();
+        }catch (SQLException exception){
+            System.out.println("There is an error on querryWhereEquals method");
+            exception.printStackTrace();
+        }
         return resultSet;
     }
 
@@ -82,6 +95,7 @@ public class Database {
         }
         return resultSet;
     }
+
     public static int querryCountRows(String tablename, String columnTable, String searchInput){
         String querry = "SELECT COUNT(" + columnTable + ") FROM " + tablename + " WHERE " + columnTable + " LIKE ?";
         int cantProductos = 0;
@@ -96,6 +110,20 @@ public class Database {
             e.printStackTrace();
         }
         return cantProductos;
+    }
+
+    public static ResultSet querrySellsByPeriod(String periodo){
+        String querry = "SELECT "+ periodo +" (FechVenta) AS Periodo, SUM(PrecTotalVenta) AS Total FROM Venta GROUP BY "+ periodo +"(FechVenta) ORDER BY Periodo";
+        ResultSet resultSet = null;
+        try {
+            PreparedStatement preparedStatement = Database.getConnection().prepareStatement(querry);
+            resultSet = preparedStatement.executeQuery();
+        }catch (SQLException exception){
+            System.out.println("There is an error on querrySellsByPeriod");
+            exception.printStackTrace();
+        }
+
+        return resultSet;
     }
 
     public static int insertVenta(int idCliente, float precioTotal, String tipoPago, boolean isPagado, Date fechaVenta){
@@ -146,6 +174,23 @@ public class Database {
         }
     }
 
+    public static void insertCliente(String nombre, String direccion, long telefono){
+        String querry = "INSERT INTO Cliente(NbrCliente, DirCliente, TelCliente)" +
+                        " VALUES(?, ?, ?)";
+        try {
+            PreparedStatement preparedStatement = Database.getConnection().prepareStatement(querry);
+            preparedStatement.setString(1, nombre);
+            preparedStatement.setString(2, direccion);
+            preparedStatement.setFloat(3, telefono);
+            preparedStatement.executeUpdate();
+
+            System.out.println("Cliente record inserted to Database");
+        }catch (SQLException exception){
+            System.out.println("There is an error on insertCliente method");
+            exception.printStackTrace();
+        }
+    }
+
     public static int countSellsByPeriod(String periodo){
         String querry = "SELECT VentasPorPeriodo('" + periodo + "')";
         ResultSet resultSet = null;
@@ -178,18 +223,6 @@ public class Database {
         return cantVentas;
     }
 
-    public static ResultSet querrySellsByPeriod(String periodo){
-        String querry = "SELECT "+ periodo +" (FechVenta) AS Periodo, SUM(PrecTotalVenta) AS Total FROM Venta GROUP BY "+ periodo +"(FechVenta) ORDER BY Periodo";
-        ResultSet resultSet = null;
-        try {
-            PreparedStatement preparedStatement = Database.getConnection().prepareStatement(querry);
-            resultSet = preparedStatement.executeQuery();
-        }catch (SQLException exception){
-            System.out.println("There is an error on querrySellsByPeriod");
-            exception.printStackTrace();
-        }
 
-        return resultSet;
-    }
 
 }

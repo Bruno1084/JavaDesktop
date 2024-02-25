@@ -4,6 +4,7 @@ public class Cliente{
     private int idCliente;
     private String nombre;
     private String direccion;
+    private long telefono;
 
     public Cliente(int idCliente, String nombre, String direccion){
         this.idCliente = idCliente;
@@ -23,5 +24,12 @@ public class Cliente{
         return direccion;
     }
 
+    public long getTelefono(){
+        return telefono;
+    }
+
+    public void setTelefono(long telefono){
+        this.telefono = telefono;
+    }
 
 }
