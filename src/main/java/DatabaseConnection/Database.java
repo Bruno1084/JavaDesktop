@@ -183,10 +183,34 @@ public class Database {
             preparedStatement.setString(2, direccion);
             preparedStatement.setFloat(3, telefono);
             preparedStatement.executeUpdate();
-
-            System.out.println("Cliente record inserted to Database");
         }catch (SQLException exception){
             System.out.println("There is an error on insertCliente method");
+            exception.printStackTrace();
+        }
+    }
+
+    public static void updateCliente(int id, String nombre,String direccion, long telefono){
+        String querry = "UPDATE cliente SET NbrCliente = '"+ nombre +
+                        "', DirCliente = '"+ direccion +
+                        "', TelCliente = "+ telefono +
+                        " WHERE IdCLiente = "+ id;
+        try {
+            PreparedStatement preparedStatement = Database.getConnection().prepareStatement(querry);
+            preparedStatement.executeUpdate();
+        }catch (SQLException exception){
+            System.out.println("There is an error on updateCliente method");
+            exception.printStackTrace();
+        }
+    }
+
+    public static void deleteFromTable(String tableName, String columnName, int id){
+        String querry = "DELETE FROM "+ tableName + " WHERE "+ columnName +" = ?";
+        try {
+            PreparedStatement preparedStatement = Database.getConnection().prepareStatement(querry);
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+        }catch (SQLException exception){
+            System.out.println("There is an error on deleteFromTable");
             exception.printStackTrace();
         }
     }

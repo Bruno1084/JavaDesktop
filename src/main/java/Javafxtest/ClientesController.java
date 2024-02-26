@@ -94,7 +94,7 @@ public class ClientesController {
     }
 
     @FXML
-    public void handleBtnAniadirCliente(ActionEvent event){
+    public void handleBtnAniadirCliente(){
         if (textFieldNombre.getText().isEmpty() || textFieldDireccion.getText().isEmpty() || textFieldTelefono.getText().isEmpty()){
             return;
         }
@@ -105,8 +105,10 @@ public class ClientesController {
 
         Database.establishConnection();
         Database.insertCliente(nombre, direccion, numero);
+        ResultSet resultSet = Database.querryAllFromTable("cliente");
+        ObservableList<Cliente> data = loadClientesData(resultSet);
+        tableClientes.setItems(data);
         Database.closeConnection();
-        System.out.println("Cliente agregado");
 
         textFieldNombre.setText("");
         textFieldDireccion.setText("");
@@ -115,13 +117,38 @@ public class ClientesController {
     }
 
     @FXML
-    public void handleBtnEditarCliente(ActionEvent event){
+    public void handleBtnEditarCliente(){
+        if(!textFieldID.getText().isEmpty() && !textFieldNombre.getText().isEmpty()){
+            int id = Integer.parseInt(textFieldID.getText());
+            String nombre = textFieldNombre.getText();
+            String direccion = textFieldDireccion.getText();
+            long telefono = Long.parseLong(textFieldTelefono.getText());
 
+            Database.establishConnection();
+            Database.updateCliente(id, nombre, direccion, telefono);
+            ResultSet resultSet = Database.querryAllFromTable("cliente");
+            ObservableList<Cliente> data = loadClientesData(resultSet);
+            tableClientes.setItems(data);
+            Database.closeConnection();
+        }
     }
 
     @FXML
-    public void handleBtnEliminarCliente(ActionEvent event){
+    public void handleBtnEliminarCliente(){
+        if(!textFieldID.getText().isEmpty() && !textFieldNombre.getText().isEmpty()){
+            int id = Integer.parseInt(textFieldID.getText());
+            Database.establishConnection();
+            Database.deleteFromTable("cliente", "IdCliente", id);
+            ResultSet resultSet = Database.querryAllFromTable("cliente");
+            ObservableList<Cliente> data = loadClientesData(resultSet);
+            tableClientes.setItems(data);
+            Database.closeConnection();
 
+            textFieldNombre.setText("");
+            textFieldID.setText("");
+            textFieldTelefono.setText("");
+            textFieldDireccion.setText("");
+        }
     }
 
     public ObservableList<Cliente> loadClientesData(ResultSet resultSet){

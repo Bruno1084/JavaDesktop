@@ -83,7 +83,7 @@
          <AnchorPane prefHeight="392.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
             <TableView fx:id="tableVentas" layoutX="147.0" layoutY="53.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <columns>
-                  <TableColumn fx:id="ColumnID" editable="false" maxWidth="80.0" minWidth="80.0" sortable="false" text="ID" />
+                  <TableColumn fx:id="ColumnID" editable="false" maxWidth="80.0" minWidth="80.0" text="ID" />
                   <TableColumn fx:id="ColumnNombre" text="Nombre" />
                   <TableColumn fx:id="ColumnCompra" maxWidth="85.0" minWidth="85.0" prefWidth="85.0" text="Compra" />
                   <TableColumn fx:id="ColumnPrecio" text="Precio" />

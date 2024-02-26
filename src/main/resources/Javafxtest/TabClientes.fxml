@@ -112,7 +112,7 @@
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                     </columnResizePolicy>
                     <columns>
-                        <TableColumn fx:id="ColumnIDCliente" editable="false" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" sortable="false" text="ID" />
+                        <TableColumn fx:id="ColumnIDCliente" editable="false" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" text="ID" />
                         <TableColumn fx:id="ColumnNombreCliente" text="Nombre" />
                         <TableColumn fx:id="ColumnDireccionCliente" text="Dirección" />
                         <TableColumn fx:id="ColumnTelefonoCliente" text="Número" />
