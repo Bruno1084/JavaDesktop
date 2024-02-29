@@ -144,11 +144,9 @@ public class Database {
             resultSet = preparedStatement.getGeneratedKeys();
 
             while (resultSet.next()){
-                System.out.println("IdVenta inserted: " + resultSet.getInt(1));
                 idVenta = resultSet.getInt(1);
             }
 
-            System.out.println("Venta ingresada en la base de datos");
         }catch (SQLException exception){
             System.out.println("Error on database method insertVenta()");
             exception.printStackTrace();
@@ -167,7 +165,6 @@ public class Database {
             preparedStatement.setInt(3, cantidad);
             preparedStatement.executeUpdate();
 
-            System.out.println("Detalle_venta added to Database");
         }catch (SQLException exception){
             System.out.println("There is an error on insertDetalle_venta()");
             exception.printStackTrace();

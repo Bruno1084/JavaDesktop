@@ -125,6 +125,7 @@ public class ModalVentasController{
         textFieldDireccion.setText("");
         textFieldTotalPagar.setText("");
         textFieldPago.setText("");
+        tableProductos.getItems().clear();
     }
 
     @FXML
@@ -261,7 +262,6 @@ public class ModalVentasController{
             try{
                 resultSet.next();
                 int idProducto = resultSet.getInt(1);
-                System.out.println("Id de producto en createDetalle_ventaRecord: "+ idProducto);
                 insertDetalle_venta(idVenta, idProducto, producto.getCantidadProducto());
             }catch (SQLException exception){
                 System.out.println("There is an error in createDetalle_ventaRecord()");
