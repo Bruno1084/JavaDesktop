@@ -1,14 +1,14 @@
 package ModalsController;
 
 import DatabaseConnection.*;
-import Javafxtest.ProductosController;
-import Javafxtest.VentasController;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-
+import javafx.util.Callback;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -61,7 +61,13 @@ public class ModalVentasController{
     @FXML
     private TableColumn <ModalDetalle_venta, String> ColumnMarca;
     @FXML
+    private TableColumn  ColumnEditar;
+    @FXML
     private TableView<ModalDetalle_venta> tableProductos;
+    @FXML
+    private Button buttonEditarDetalle;
+    @FXML
+    private Button buttonEliminarDetalle;
 
     private final List<Producto> productos = new ArrayList<>();
     private final List<Cliente> clientes = new ArrayList<>();
@@ -73,6 +79,43 @@ public class ModalVentasController{
         ColumnCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidadProducto"));
         ColumnPrecio.setCellValueFactory(new PropertyValueFactory<>("precioProducto"));
         ColumnMarca.setCellValueFactory(new PropertyValueFactory<>("marcaProducto"));
+
+        //Do not touch ↓↓↓
+        Callback<TableColumn.CellDataFeatures<ModalDetalle_venta, String>, ObservableValue<String>> cellFactory = new Callback<>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<ModalDetalle_venta, String> param) {
+                // return an ObservableValue<String>
+                return new SimpleStringProperty(param.getValue().getNombreProducto());
+            }
+        };
+
+        ColumnEditar.setCellValueFactory(cellFactory);
+        ColumnEditar.setCellFactory(param -> {
+            final TableCell<ModalDetalle_venta, String> cell = new TableCell<>(){
+
+                @Override
+                public void updateItem(String item, boolean empty){
+                    super.updateItem(item, empty);
+
+                    if(empty){
+                        setGraphic(null);
+                        setText(null);
+                    }else{
+                        final Button editButton = new Button("Editar");
+                        editButton.setOnAction(event ->{
+                            ModalDetalle_venta modalDetalleVenta = getTableView().getItems().get(getIndex());
+
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setContentText("You have clicked: " + modalDetalleVenta.getNombreProducto() + " editar producto");
+                            alert.show();
+                        });
+                        setGraphic(editButton);
+                        setText(null);
+                    }
+                };
+            };
+            return cell;
+        });
 
     }
 
