@@ -92,7 +92,6 @@ public class ModalVentasController{
         ColumnEditar.setCellValueFactory(cellFactory);
         ColumnEditar.setCellFactory(param -> {
             final TableCell<ModalDetalle_venta, String> cell = new TableCell<>(){
-
                 @Override
                 public void updateItem(String item, boolean empty){
                     super.updateItem(item, empty);
@@ -101,18 +100,17 @@ public class ModalVentasController{
                         setGraphic(null);
                         setText(null);
                     }else{
-                        final Button editButton = new Button("Editar");
+                        final Button editButton = new Button("Eliminar");
                         editButton.setOnAction(event ->{
-                            ModalDetalle_venta modalDetalleVenta = getTableView().getItems().get(getIndex());
 
-                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                            alert.setContentText("You have clicked: " + modalDetalleVenta.getNombreProducto() + " editar producto");
-                            alert.show();
+                            ModalDetalle_venta modalDetalleVenta = getTableView().getItems().get(getIndex());
+                            tableProductos.getItems().remove(modalDetalleVenta);
+                            tableProductos.refresh();
                         });
                         setGraphic(editButton);
                         setText(null);
                     }
-                };
+                }
             };
             return cell;
         });
