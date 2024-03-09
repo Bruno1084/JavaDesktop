@@ -5,12 +5,22 @@ import DatabaseConnection.Producto;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Iterator;
 
 public class ProductosController {
     @FXML
@@ -33,6 +43,8 @@ public class ProductosController {
     private TableColumn <Producto, String> ColumnCategoria;
     @FXML
     private TableColumn <Producto, String> ColumnCtoNeto;
+    @FXML
+    private GridPane gridCategoria;
 
     public void initialize() {
         ColumnID.setCellValueFactory(new PropertyValueFactory<>("ID"));
@@ -53,8 +65,11 @@ public class ProductosController {
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
 
         loadPieChartProduct(pieChartData, pieProductos);
-        Database.closeConnection();
 
+
+        loadProductsCategories(Database.querryProductsByGroup());
+
+        Database.closeConnection();
 
     }
 
@@ -98,5 +113,39 @@ public class ProductosController {
         }
 
     }
+
+    private void loadProductsCategories(ResultSet resultSet){
+        int i = 0;
+        int j = 0;
+
+        try{
+            while (resultSet.next() && i < gridCategoria.getRowCount() && j < gridCategoria.getColumnCount()){
+                String categoria = resultSet.getString(1);
+                long cantidad = resultSet.getLong(2);
+
+                VBox box = new VBox();
+                box.setAlignment(Pos.CENTER);
+
+                Text txtCategoria = new Text(categoria);
+                Text txtCantidad = new Text(String.valueOf(cantidad));
+
+                box.getChildren().add(txtCategoria);
+                box.getChildren().add(txtCantidad);
+
+                gridCategoria.add(box, j, i);
+
+                j++;
+                if (j >= gridCategoria.getColumnCount()) {
+                    j = 0;
+                    i++;
+                }
+            }
+
+        }catch (SQLException exception){
+            exception.printStackTrace();
+        }
+    }
+
+
 
 }

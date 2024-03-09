@@ -10,13 +10,14 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="paneProductos" xmlns="http://javafx.com/javafx/19.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Javafxtest.ProductosController">
+<AnchorPane fx:id="paneProductos" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Javafxtest.ProductosController">
     <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutX="175.0" layoutY="73.0" maxWidth="1.7976931348623157E308" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <VBox prefWidth="666.0" style="-fx-padding: 8;">
             <HBox prefHeight="371.0" prefWidth="650.0" style="-fx-border-style: solid;" VBox.vgrow="ALWAYS">
@@ -26,39 +27,21 @@
                     </HBox.margin>
                     <PieChart fx:id="pieChartProductos" layoutX="-110.0" layoutY="-30.0" title="Distribución de Productos" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                 </AnchorPane>
-                <VBox prefHeight="338.0" prefWidth="400.0" style="-fx-border-style: solid; -fx-border-radius: 8;" HBox.hgrow="ALWAYS">
-                    <HBox.margin>
-                        <Insets left="5.0" />
-                    </HBox.margin>
-                    <Pane prefHeight="85.0" prefWidth="327.0" style="-fx-border-style: solid;">
-                        <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Categoria 1">
-                            <font>
-                                <Font size="16.0" />
-                            </font>
-                        </Text>
-                    </Pane>
-                    <Pane layoutX="11.0" layoutY="11.0" prefHeight="85.0" prefWidth="327.0" style="-fx-border-style: solid;">
-                        <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Categoria 2">
-                            <font>
-                                <Font size="16.0" />
-                            </font>
-                        </Text>
-                    </Pane>
-                    <Pane layoutX="11.0" layoutY="118.0" prefHeight="85.0" prefWidth="327.0" style="-fx-border-style: solid;">
-                        <Text layoutX="15.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Categoria 3">
-                            <font>
-                                <Font size="16.0" />
-                            </font>
-                        </Text>
-                    </Pane>
-                    <Pane layoutX="11.0" layoutY="181.0" prefHeight="85.0" prefWidth="327.0" style="-fx-border-style: solid;">
-                        <Text layoutX="14.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Categoria 4">
-                            <font>
-                                <Font size="16.0" />
-                            </font>
-                        </Text>
-                    </Pane>
-                </VBox>
+            <GridPane fx:id="gridCategoria" gridLinesVisible="true" style="-fx-border-style: solid; -fx-border-radius: 8px;" HBox.hgrow="ALWAYS">
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+               <columnConstraints>
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                  <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
+               </rowConstraints>
+            </GridPane>
                 <padding>
                     <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                 </padding>
