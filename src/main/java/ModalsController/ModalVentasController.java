@@ -1,14 +1,11 @@
 package ModalsController;
 
 import DatabaseConnection.*;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.util.Callback;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -81,15 +78,6 @@ public class ModalVentasController{
         ColumnMarca.setCellValueFactory(new PropertyValueFactory<>("marcaProducto"));
 
         //Do not touch ↓↓↓
-        Callback<TableColumn.CellDataFeatures<ModalDetalle_venta, String>, ObservableValue<String>> cellFactory = new Callback<>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<ModalDetalle_venta, String> param) {
-                // return an ObservableValue<String>
-                return new SimpleStringProperty(param.getValue().getNombreProducto());
-            }
-        };
-
-        ColumnEditar.setCellValueFactory(cellFactory);
         ColumnEditar.setCellFactory(param -> {
             final TableCell<ModalDetalle_venta, String> cell = new TableCell<>(){
                 @Override
@@ -102,7 +90,6 @@ public class ModalVentasController{
                     }else{
                         final Button editButton = new Button("Eliminar");
                         editButton.setOnAction(event ->{
-
                             ModalDetalle_venta modalDetalleVenta = getTableView().getItems().get(getIndex());
                             tableProductos.getItems().remove(modalDetalleVenta);
                             tableProductos.refresh();
@@ -114,7 +101,6 @@ public class ModalVentasController{
             };
             return cell;
         });
-
     }
 
     @FXML

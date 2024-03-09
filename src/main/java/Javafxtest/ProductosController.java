@@ -6,21 +6,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
-import javafx.scene.control.Label;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Iterator;
 
 public class ProductosController {
     @FXML
@@ -44,6 +39,8 @@ public class ProductosController {
     @FXML
     private TableColumn <Producto, String> ColumnCtoNeto;
     @FXML
+    private TableColumn  ColumnEditar;
+    @FXML
     private GridPane gridCategoria;
 
     public void initialize() {
@@ -56,6 +53,30 @@ public class ProductosController {
         ColumnCategoria.setCellValueFactory(new PropertyValueFactory<>("categoria"));
         ColumnCtoNeto.setCellValueFactory(new PropertyValueFactory<>("ctoNeto"));
 
+        ColumnEditar.setCellFactory(param ->{
+            final TableCell<Producto, String> cell = new TableCell<>(){
+                @Override
+                public void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+                    }else{
+                        final Button editButton = new Button("Eliminar");
+                        editButton.setOnAction(event -> {
+                            Producto producto = getTableView().getItems().get(getIndex());
+                            tableProductos.getItems().remove(producto);
+                            tableProductos.refresh();
+                        });
+                        setGraphic(editButton);
+                        setText(null);
+                    }
+                }
+            };
+            return cell;
+        });
+
         Database.establishConnection();
         ResultSet resultSet = Database.querryAllFromTable("producto");
         ObservableList <Producto> data = loadProductData(resultSet);
@@ -65,10 +86,7 @@ public class ProductosController {
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
 
         loadPieChartProduct(pieChartData, pieProductos);
-
-
         loadProductsCategories(Database.querryProductsByGroup());
-
         Database.closeConnection();
 
     }
@@ -117,7 +135,8 @@ public class ProductosController {
     private void loadProductsCategories(ResultSet resultSet){
         int i = 0;
         int j = 0;
-
+        String[] colors = {"#E06032", "#E49921", "#58AF58", "#44A3BE", "#3C51B7"};
+        int indexColor=0;
         try{
             while (resultSet.next() && i < gridCategoria.getRowCount() && j < gridCategoria.getColumnCount()){
                 String categoria = resultSet.getString(1);
@@ -125,15 +144,16 @@ public class ProductosController {
 
                 VBox box = new VBox();
                 box.setAlignment(Pos.CENTER);
+                box.setStyle("-fx-background-color: "+ colors[indexColor] +"; -fx-border-radius: 8; -fx-background-radius: 8; -fx-font-size: 14px;");
 
                 Text txtCategoria = new Text(categoria);
                 Text txtCantidad = new Text(String.valueOf(cantidad));
 
                 box.getChildren().add(txtCategoria);
                 box.getChildren().add(txtCantidad);
-
                 gridCategoria.add(box, j, i);
 
+                indexColor++;
                 j++;
                 if (j >= gridCategoria.getColumnCount()) {
                     j = 0;
@@ -145,7 +165,4 @@ public class ProductosController {
             exception.printStackTrace();
         }
     }
-
-
-
 }
