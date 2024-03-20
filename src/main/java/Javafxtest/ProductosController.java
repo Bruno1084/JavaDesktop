@@ -2,10 +2,14 @@ package Javafxtest;
 
 import DatabaseConnection.Database;
 import DatabaseConnection.Producto;
+import ModalsController.ProductoModalController;
+import Observers.DatabaseObserver;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
@@ -14,10 +18,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ProductosController {
+public class ProductosController implements DatabaseObserver {
     @FXML
     PieChart pieChartProductos;
     @FXML
@@ -53,6 +59,7 @@ public class ProductosController {
         ColumnCategoria.setCellValueFactory(new PropertyValueFactory<>("categoria"));
         ColumnCtoNeto.setCellValueFactory(new PropertyValueFactory<>("ctoNeto"));
 
+        //Do not touch ↓↓↓
         ColumnEditar.setCellFactory(param ->{
             final TableCell<Producto, String> cell = new TableCell<>(){
                 @Override
@@ -63,11 +70,10 @@ public class ProductosController {
                         setGraphic(null);
                         setText(null);
                     }else{
-                        final Button editButton = new Button("Eliminar");
+                        final Button editButton = new Button("Editar");
                         editButton.setOnAction(event -> {
                             Producto producto = getTableView().getItems().get(getIndex());
-                            tableProductos.getItems().remove(producto);
-                            tableProductos.refresh();
+                            handleEditarButton(producto);
                         });
                         setGraphic(editButton);
                         setText(null);
@@ -91,6 +97,40 @@ public class ProductosController {
 
     }
 
+    @Override
+    public void update() {
+        tableProductos.refresh();
+    }
+
+    @FXML
+    protected void handleAgregarButton(){
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ModalsController/modalProducto.fxml"));
+            Stage secondStage = new Stage();
+            secondStage.setScene(new Scene(fxmlLoader.load()));
+
+            secondStage.show();
+        }catch (IOException exception){
+            exception.printStackTrace();
+        }
+    }
+
+    protected void handleEditarButton(Producto producto){
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ModalsController/modalProducto.fxml"));
+            Stage secondStage = new Stage();
+            secondStage.setScene(new Scene(fxmlLoader.load()));
+
+            ProductoModalController controller = fxmlLoader.getController();
+            controller.loadProducto(producto);
+
+            fxmlLoader.setController(controller);
+            secondStage.setResizable(false);
+            secondStage.show();
+        }catch (IOException exception){
+            exception.printStackTrace();
+        }
+    }
     private ObservableList<Producto> loadProductData(ResultSet resultSet){
         ObservableList<Producto> data = FXCollections.observableArrayList();
 

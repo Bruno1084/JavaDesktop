@@ -72,7 +72,7 @@
                         <MenuItem mnemonicParsing="false" text="Editar" />
                     </items>
                 </MenuButton>
-                <Button layoutX="476.0" layoutY="11.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="65.0" text="Agregar" />
+                <Button fx:id="buttonAgregar" layoutX="476.0" layoutY="11.0" mnemonicParsing="false" onAction="#handleAgregarButton" prefHeight="35.0" prefWidth="65.0" text="Agregar" />
             </AnchorPane>
 
             <AnchorPane prefHeight="392.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">

@@ -186,6 +186,26 @@ public class Database {
         }
     }
 
+    public static void insertProducto(long codigo, String nombre, float precio, int stock, String marca, String categoria, String cNeto){
+        String querry = "INSERT INTO producto(NbrProducto, PrecProducto, StockProducto, MarcProducto, CatProducto, CNetoProducto, CodBarraProducto)" +
+                        " VALUES(?, ?, ?, ?, ?, ?, ?)";
+        try{
+            PreparedStatement preparedStatement = Database.getConnection().prepareStatement(querry);
+            preparedStatement.setString(1, nombre);
+            preparedStatement.setFloat(2, precio);
+            preparedStatement.setInt(3, stock);
+            preparedStatement.setString(4, marca);
+            preparedStatement.setString(5, categoria);
+            preparedStatement.setString(6, cNeto);
+            preparedStatement.setLong(7, codigo);
+            preparedStatement.executeUpdate();
+
+        }catch (SQLException exception){
+            System.out.println("There is an error on insertVenta method");
+            exception.printStackTrace();
+        }
+    }
+
     public static void updateCliente(int id, String nombre,String direccion, long telefono){
         String querry = "UPDATE cliente SET NbrCliente = '"+ nombre +
                         "', DirCliente = '"+ direccion +
@@ -196,6 +216,25 @@ public class Database {
             preparedStatement.executeUpdate();
         }catch (SQLException exception){
             System.out.println("There is an error on updateCliente method");
+            exception.printStackTrace();
+        }
+    }
+
+    public static void updateProducto(int id, long codigo, String nombre, float precio, int stock, String marca, String categoria, String cNeto){
+        String query = "UPDATE producto SET NbrProducto = ?, PrecProducto = ?, StockProducto = ?, MarcProducto = ?, CatProducto = ?, CNetoProducto = ?, CodBarraProducto = ? WHERE IdProducto = ?";
+        try{
+            PreparedStatement preparedStatement = Database.getConnection().prepareStatement(query);
+            preparedStatement.setString(1, nombre);
+            preparedStatement.setFloat(2, precio);
+            preparedStatement.setInt(3, stock);
+            preparedStatement.setString(4, marca);
+            preparedStatement.setString(5, categoria);
+            preparedStatement.setString(6, cNeto);
+            preparedStatement.setLong(7, codigo);
+            preparedStatement.setInt(8, id);
+            preparedStatement.executeUpdate();
+        }catch (SQLException exception){
+            System.out.println("There is an error on updateProducto method");
             exception.printStackTrace();
         }
     }
@@ -243,7 +282,5 @@ public class Database {
         }
         return cantVentas;
     }
-
-
-
+    
 }
