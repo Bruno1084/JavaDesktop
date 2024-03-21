@@ -99,7 +99,10 @@ public class ProductosController implements DatabaseObserver {
 
     @Override
     public void update() {
-        tableProductos.refresh();
+        Database.establishConnection();
+        ResultSet resultSet = Database.querryAllFromTable("producto");
+        ObservableList <Producto> data = loadProductData(resultSet);
+        tableProductos.setItems(data);
     }
 
     @FXML
@@ -123,7 +126,7 @@ public class ProductosController implements DatabaseObserver {
 
             ProductoModalController controller = fxmlLoader.getController();
             controller.loadProducto(producto);
-
+            controller.setControladorPadre(this);
             fxmlLoader.setController(controller);
             secondStage.setResizable(false);
             secondStage.show();

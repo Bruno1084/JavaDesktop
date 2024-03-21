@@ -2,15 +2,15 @@ package ModalsController;
 
 import DatabaseConnection.Database;
 import DatabaseConnection.Producto;
-import Observers.DatabaseObserver;
+import Javafxtest.ProductosController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import java.util.EventListener;
 
-public class ProductoModalController{
+public class ProductoModalController {
     @FXML
     private TextField textFieldCodigo;
     @FXML
@@ -30,16 +30,15 @@ public class ProductoModalController{
     @FXML
     private Button buttonAñadir;
     private Producto producto;
-
-
-    public void initialize(){
+    private ProductosController controladorPadre;
+    public void initialize() {
 
     }
 
 
     @FXML
-    public void insertProducto(){
-        if (textFieldNombre.getText().isEmpty() || textFieldCodigo.getText().isEmpty() || textFieldPrecio.getText().isEmpty() || textFieldStock.getText().isEmpty() || textFieldMarca.getText().isEmpty() || textFieldCategoria.getText().isEmpty() || textFieldCNeto.getText().isEmpty()){
+    public void insertProducto() {
+        if (textFieldNombre.getText().isEmpty() || textFieldCodigo.getText().isEmpty() || textFieldPrecio.getText().isEmpty() || textFieldStock.getText().isEmpty() || textFieldMarca.getText().isEmpty() || textFieldCategoria.getText().isEmpty() || textFieldCNeto.getText().isEmpty()) {
             return;
         }
 
@@ -47,13 +46,14 @@ public class ProductoModalController{
         Database.insertProducto(Long.parseLong(textFieldCodigo.getText()), textFieldNombre.getText(), Float.parseFloat(textFieldPrecio.getText()), Integer.parseInt(textFieldStock.getText()), textFieldMarca.getText(), textFieldCategoria.getText(), textFieldCNeto.getText());
         Database.closeConnection();
 
+        controladorPadre.update();
         Stage stage = (Stage) buttonAñadir.getScene().getWindow();
         stage.close();
     }
 
     @FXML
-    public void alterProducto(){
-        if (textFieldNombre.getText().isEmpty() || textFieldCodigo.getText().isEmpty() || textFieldPrecio.getText().isEmpty() || textFieldStock.getText().isEmpty() || textFieldMarca.getText().isEmpty() || textFieldCategoria.getText().isEmpty() || textFieldCNeto.getText().isEmpty()){
+    public void alterProducto() {
+        if (textFieldNombre.getText().isEmpty() || textFieldCodigo.getText().isEmpty() || textFieldPrecio.getText().isEmpty() || textFieldStock.getText().isEmpty() || textFieldMarca.getText().isEmpty() || textFieldCategoria.getText().isEmpty() || textFieldCNeto.getText().isEmpty()) {
             return;
         }
 
@@ -61,11 +61,13 @@ public class ProductoModalController{
         Database.updateProducto(producto.getID(), Long.parseLong(textFieldCodigo.getText()), textFieldNombre.getText(), Float.parseFloat(textFieldPrecio.getText()), Integer.parseInt(textFieldStock.getText()), textFieldMarca.getText(), textFieldCategoria.getText(), textFieldCNeto.getText());
         Database.closeConnection();
 
+        controladorPadre.update();
         Stage stage = (Stage) buttonEditar.getScene().getWindow();
         stage.close();
     }
 
-    public void loadProducto(Producto producto){
+    public void loadProducto(Producto producto) {
+        setProducto(producto);
         textFieldCodigo.setText(String.valueOf(producto.getBarCodigo()));
         textFieldNombre.setText(producto.getNombre());
         textFieldPrecio.setText(String.valueOf(producto.getPrecio()));
@@ -74,5 +76,15 @@ public class ProductoModalController{
         textFieldCategoria.setText(producto.getCategoria());
         textFieldCNeto.setText(producto.getCtoNeto());
     }
+
+    // ↓↓ There has to be a better way to do this ↓↓
+    public void setControladorPadre(ProductosController controladorPadre){
+        this.controladorPadre = controladorPadre;
+    }
+
+    public void setProducto(Producto producto){
+        this.producto = producto;
+    }
+
 
 }
