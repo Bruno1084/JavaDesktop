@@ -3,7 +3,6 @@ package DatabaseConnection;
 import java.sql.*;
 
 public class Database {
-
     private static Connection connection = null;
 
     public static Connection getConnection(){
@@ -282,5 +281,29 @@ public class Database {
         }
         return cantVentas;
     }
-    
+
+    public static ResultSet querryGroupByMonthVentas(){
+        ResultSet resultSet = null;
+        String query = """
+                SELECT\s
+                    COUNT(IdVenta) AS CantidadVentas,
+                    MONTH(FechVenta) AS Mes,
+                    YEAR(FechVenta) AS Año
+                FROM\s
+                    Venta
+                GROUP BY\s
+                    YEAR(FechVenta),
+                    MONTH(FechVenta)
+                ORDER BY\s
+                    Año,
+                    Mes;""";
+        try{
+            PreparedStatement preparedStatement = Database.getConnection().prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+        }catch (SQLException exception){
+            exception.printStackTrace();
+        }
+
+        return resultSet;
+    }
 }

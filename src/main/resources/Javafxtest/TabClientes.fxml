@@ -116,7 +116,6 @@
                         <TableColumn fx:id="ColumnNombreCliente" text="Nombre" />
                         <TableColumn fx:id="ColumnDireccionCliente" text="Dirección" />
                         <TableColumn fx:id="ColumnTelefonoCliente" text="Número" />
-                        <TableColumn text="Editar" />
                     </columns>
                 </TableView>
             </AnchorPane>

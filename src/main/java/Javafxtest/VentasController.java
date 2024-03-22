@@ -8,6 +8,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -18,6 +21,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
 
 public class VentasController {
     @FXML
@@ -38,9 +42,15 @@ public class VentasController {
     private  TableColumn <Venta, Boolean> ColumnPagado;
     @FXML
     private TableColumn <Venta, Date> ColumnFecha;
-
     @FXML
     private Button agregarButton;
+
+    @FXML
+    private final NumberAxis xAxis = new NumberAxis();
+    @FXML
+    private final NumberAxis yAxis = new NumberAxis();
+    @FXML
+    private LineChart<Number, Number> graphChart = new LineChart<>(xAxis, yAxis);
 
     public void initialize(){
         ColumnID.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -60,6 +70,9 @@ public class VentasController {
         ResultSet resultSet = Database.querryInnerJoin(columns, venta, cliente, leftJoin, rightJoin);
         ObservableList <Venta> ventas = loadVentasData(resultSet);
         tableVentas.setItems(ventas);
+
+        ResultSet setGraphData = Database.querryGroupByMonthVentas();
+        loadLineChart(setGraphData);
         Database.closeConnection();
 
         handleTotalVentas_Dia();
@@ -122,5 +135,19 @@ public class VentasController {
         return data;
     }
 
+    public void loadLineChart(ResultSet resultSet){
+        XYChart.Series series = new XYChart.Series();
+        Calendar calendar = Calendar.getInstance();
+        try {
+            while (resultSet.next()){
+                int mes = resultSet.getInt(1);
+                float total = resultSet.getFloat(2);
 
+                series.getData().add(new XYChart.Data(mes, total));
+            }
+        }catch (SQLException exception){
+            exception.printStackTrace();
+        }
+        graphChart.getData().add(series);
+    }
 }
