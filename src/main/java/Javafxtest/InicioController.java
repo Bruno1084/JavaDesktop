@@ -35,8 +35,6 @@ public class InicioController{
     @FXML
     private TextField searchBar;
     @FXML
-    private MenuButton filterButton;
-    @FXML
     private Text daySellingsText;
     @FXML
     private Text monthSellingsText;
@@ -48,6 +46,7 @@ public class InicioController{
     @FXML
     private LineChart<Number, Number> graphChart = new LineChart<>(xAxis, yAxis);
 
+    private String [] columns = {"IdVenta", "venta.IdCliente", "NbrCliente", "PrecTotalVenta", "TPagoVenta", "PagVenta", "FechVenta"};
 
     public void initialize() {
         ColumnID.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -57,7 +56,6 @@ public class InicioController{
         ColumnPagado.setCellValueFactory(new PropertyValueFactory<>("pagado"));
         ColumnFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
 
-        String [] columns = {"IdVenta", "venta.IdCliente", "NbrCliente", "PrecTotalVenta", "TPagoVenta", "PagVenta", "FechVenta"};
         String venta = "venta";
         String cliente = "cliente";
         String leftJoin = "IdCliente";
@@ -77,7 +75,18 @@ public class InicioController{
 
     }
 
+    @FXML
     public void listenerSearchBar(){
+        if(searchBar.getText() != ""){
+            String textBar = searchBar.getText();
+            System.out.println(textBar);
+            ResultSet resultSet = null;
+            Database.establishConnection();
+            resultSet = Database.queryInnerJoinWhere(columns, "venta", "cliente", "IdCliente", "IdCliente", "NbrCliente", textBar);
+            ObservableList <Venta> inputVentas = loadVentasData(resultSet);
+            tableVentas.setItems(inputVentas);
+            Database.closeConnection();
+        }
 
     }
 

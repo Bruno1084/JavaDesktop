@@ -83,6 +83,26 @@ public class Database {
         return resultSet;
     }
 
+    public static ResultSet queryInnerJoinWhere(String[] columns, String leftTable, String rightTable, String leftJoin, String rightJoin, String columnSearch, String searchInput) {
+        String querryColumns = String.join(", ", columns);
+        String querry = "SELECT " + querryColumns +
+                " FROM " + leftTable + " INNER JOIN " +
+                rightTable + " ON " + leftTable + "." + leftJoin + " = " +
+                rightTable + "." + rightJoin +
+                " WHERE " + rightTable + "." + columnSearch + " LIKE ?";
+        ResultSet resultSet = null;
+        try {
+            PreparedStatement preparedStatement = Database.getConnection().prepareStatement(querry);
+            preparedStatement.setString(1, "%" + searchInput + "%");
+            resultSet = preparedStatement.executeQuery();
+        } catch (SQLException exception) {
+            System.out.println("There is an error on QueryInnerJoinWhere method");
+            exception.printStackTrace();
+        }
+        return resultSet;
+    }
+
+
     public static ResultSet querryProductsByGroup(){
         String querry = "SELECT DISTINCT CatProducto, COUNT(*) FROM producto GROUP BY CatProducto";
         ResultSet resultSet = null;
