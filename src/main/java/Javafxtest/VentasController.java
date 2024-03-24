@@ -2,9 +2,9 @@ package Javafxtest;
 
 import DatabaseConnection.Database;
 import DatabaseConnection.Venta;
+import ModalsController.ModalDetalleVentaController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -12,6 +12,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -33,7 +34,7 @@ public class VentasController {
     @FXML
     private TableColumn <Venta, String> ColumnNombre;
     @FXML
-    private TableColumn <?, Button> ColumnCompra;
+    private TableColumn ColumnCompra;
     @FXML
     private TableColumn <Venta, Float> ColumnPrecio;
     @FXML
@@ -60,6 +61,31 @@ public class VentasController {
         ColumnPagado.setCellValueFactory(new PropertyValueFactory<>("pagado"));
         ColumnFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
 
+        //Do not touch ↓↓↓
+        ColumnCompra.setCellFactory(param ->{
+            final TableCell<Venta, String> cell = new TableCell<>(){
+                @Override
+                public void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+                    }else{
+                        final Button editButton = new Button("Compra");
+                        editButton.setOnAction(event -> {
+                            Venta venta = getTableView().getItems().get(getIndex());
+                            handleShowCompra(venta);
+
+                        });
+                        setGraphic(editButton);
+                        setText(null);
+                    }
+                }
+            };
+            return cell;
+        });
+
         String [] columns = {"IdVenta", "venta.IdCliente", "NbrCliente", "PrecTotalVenta", "TPagoVenta", "PagVenta", "FechVenta"};
         String venta = "venta";
         String cliente = "cliente";
@@ -79,7 +105,7 @@ public class VentasController {
     }
 
     @FXML
-    protected void handleAgregarButton(ActionEvent event){
+    protected void handleAgregarButton(){
         try{
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ModalsController/modalVentas.fxml"));
             Stage secondStage = new Stage();
@@ -149,5 +175,22 @@ public class VentasController {
             exception.printStackTrace();
         }
         graphChart.getData().add(series);
+    }
+
+    protected void handleShowCompra(Venta venta){
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ModalsController/modalDetalleVenta.fxml"));
+            Stage secondStage = new Stage();
+            secondStage.setScene(new Scene(fxmlLoader.load()));
+
+            ModalDetalleVentaController controller = fxmlLoader.getController();
+            controller.setVenta(venta);
+
+//            fxmlLoader.setController(controller);
+            secondStage.setResizable(false);
+            secondStage.show();
+        }catch (IOException exception){
+            exception.printStackTrace();
+        }
     }
 }

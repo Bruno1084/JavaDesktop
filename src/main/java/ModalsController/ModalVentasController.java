@@ -58,7 +58,7 @@ public class ModalVentasController{
     @FXML
     private TableColumn <ModalDetalle_venta, String> ColumnMarca;
     @FXML
-    private TableColumn  ColumnEditar;
+    private TableColumn  ColumnEliminar;
     @FXML
     private TableView<ModalDetalle_venta> tableProductos;
     @FXML
@@ -78,7 +78,7 @@ public class ModalVentasController{
         ColumnMarca.setCellValueFactory(new PropertyValueFactory<>("marcaProducto"));
 
         //Do not touch ↓↓↓
-        ColumnEditar.setCellFactory(param -> {
+        ColumnEliminar.setCellFactory(param -> {
             final TableCell<ModalDetalle_venta, String> cell = new TableCell<>(){
                 @Override
                 public void updateItem(String item, boolean empty){

@@ -5,16 +5,19 @@ import DatabaseConnection.Venta;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Calendar;
 
 public class InicioController{
     @FXML
@@ -31,6 +34,8 @@ public class InicioController{
     private  TableColumn <Venta, Boolean> ColumnPagado;
     @FXML
     private TableColumn <Venta, Date> ColumnFecha;
+    @FXML
+    private TableColumn  ColumnEditar;
 
     @FXML
     private TextField searchBar;
@@ -46,7 +51,7 @@ public class InicioController{
     @FXML
     private LineChart<Number, Number> graphChart = new LineChart<>(xAxis, yAxis);
 
-    private String [] columns = {"IdVenta", "venta.IdCliente", "NbrCliente", "PrecTotalVenta", "TPagoVenta", "PagVenta", "FechVenta"};
+    private final String [] columns = {"IdVenta", "venta.IdCliente", "NbrCliente", "PrecTotalVenta", "TPagoVenta", "PagVenta", "FechVenta"};
 
     public void initialize() {
         ColumnID.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -55,6 +60,30 @@ public class InicioController{
         ColumnTipoPago.setCellValueFactory(new PropertyValueFactory<>("tipoPago"));
         ColumnPagado.setCellValueFactory(new PropertyValueFactory<>("pagado"));
         ColumnFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+
+        //Do not touch ↓↓↓
+        ColumnEditar.setCellFactory(param ->{
+            final TableCell<Venta, String> cell = new TableCell<>(){
+                @Override
+                public void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+                    }else{
+                        final Button editButton = new Button("Editar");
+                        editButton.setOnAction(event -> {
+                            Venta venta = getTableView().getItems().get(getIndex());
+                            handleEditarButton();
+                        });
+                        setGraphic(editButton);
+                        setText(null);
+                    }
+                }
+            };
+            return cell;
+        });
 
         String venta = "venta";
         String cliente = "cliente";
@@ -72,15 +101,25 @@ public class InicioController{
         ResultSet sellsByPeriod = Database.querrySellsByPeriod("MONTH");
         loadLineChart(sellsByPeriod);
         Database.closeConnection();
+    }
 
+    @FXML
+    public void handleAgregarButton(){
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ModalsController/modalVentas.fxml"));
+            Stage secondStage = new Stage();
+            secondStage.setScene(new Scene(fxmlLoader.load()));
+            secondStage.show();
+        }catch (IOException exception){
+            exception.printStackTrace();
+        }
     }
 
     @FXML
     public void listenerSearchBar(){
         if(searchBar.getText() != ""){
             String textBar = searchBar.getText();
-            System.out.println(textBar);
-            ResultSet resultSet = null;
+            ResultSet resultSet;
             Database.establishConnection();
             resultSet = Database.queryInnerJoinWhere(columns, "venta", "cliente", "IdCliente", "IdCliente", "NbrCliente", textBar);
             ObservableList <Venta> inputVentas = loadVentasData(resultSet);
@@ -115,7 +154,6 @@ public class InicioController{
 
     public void loadLineChart(ResultSet resultSet){
         XYChart.Series series = new XYChart.Series();
-        Calendar calendar = Calendar.getInstance();
         try {
             while (resultSet.next()){
                 int mes = resultSet.getInt(1);
@@ -127,5 +165,10 @@ public class InicioController{
             exception.printStackTrace();
         }
         graphChart.getData().add(series);
+    }
+
+    protected void handleEditarButton(){
+
+
     }
 }

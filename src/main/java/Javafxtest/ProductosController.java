@@ -134,6 +134,7 @@ public class ProductosController implements DatabaseObserver {
             exception.printStackTrace();
         }
     }
+
     private ObservableList<Producto> loadProductData(ResultSet resultSet){
         ObservableList<Producto> data = FXCollections.observableArrayList();
 

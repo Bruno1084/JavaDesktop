@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="506.0" prefWidth="724.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ModalsController.ModalDetalleVentaController">
+   <children>
+      <VBox layoutX="99.0" layoutY="68.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Pane prefHeight="278.0" prefWidth="724.0">
+               <children>
+                  <Text layoutX="26.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cliente" underline="true">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="26.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID:">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="textFieldID" layoutX="48.0" layoutY="77.0" prefHeight="25.0" prefWidth="77.0" />
+                  <Text layoutX="200.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre:">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="textFieldNombre" layoutX="262.0" layoutY="77.0" />
+                  <Text layoutX="472.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dirección:">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="textFieldDireccion" layoutX="539.0" layoutY="77.0" prefHeight="25.0" prefWidth="173.0" />
+                  <Text layoutX="22.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Precio:">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="textFieldPrecio" layoutX="70.0" layoutY="134.0" prefHeight="25.0" prefWidth="118.0" />
+                  <Text layoutX="255.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pago:">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="textFieldPago" layoutX="293.0" layoutY="134.0" prefHeight="25.0" prefWidth="129.0" />
+                  <Text layoutX="472.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pagado:">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="textFieldPagado" layoutX="533.0" layoutY="134.0" prefHeight="25.0" prefWidth="129.0" />
+               </children>
+            </Pane>
+            <TableView fx:id="tableDetalleProductos" prefHeight="370.0" prefWidth="724.0">
+              <columns>
+                <TableColumn fx:id="columnCodigo" prefWidth="75.0" text="Codigo" />
+                <TableColumn fx:id="columnNombre" prefWidth="75.0" text="Producto" />
+                  <TableColumn fx:id="columnMarca" prefWidth="75.0" text="Marca" />
+                  <TableColumn fx:id="columnCantidad" prefWidth="75.0" text="Cantidad" />
+                  <TableColumn fx:id="columnPrecio" prefWidth="75.0" text="Precio" />
+              </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </TableView>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

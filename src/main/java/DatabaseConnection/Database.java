@@ -102,6 +102,24 @@ public class Database {
         return resultSet;
     }
 
+    public static ResultSet queryInnerJoinWhereEquals(String[] columns, String leftTable, String rightTable, String leftJoin, String rightJoin, String columnSearch, String searchInput) {
+        String querryColumns = String.join(", ", columns);
+        String querry = "SELECT " + querryColumns +
+                " FROM " + leftTable + " INNER JOIN " +
+                rightTable + " ON " + leftTable + "." + leftJoin + " = " +
+                rightTable + "." + rightJoin +
+                " WHERE " + columnSearch + "= ?";
+        ResultSet resultSet = null;
+        try {
+            PreparedStatement preparedStatement = Database.getConnection().prepareStatement(querry);
+            preparedStatement.setString(1, searchInput);
+            resultSet = preparedStatement.executeQuery();
+        } catch (SQLException exception) {
+            System.out.println("There is an error on QueryInnerJoinWhereEquals method");
+            exception.printStackTrace();
+        }
+        return resultSet;
+    }
 
     public static ResultSet querryProductsByGroup(){
         String querry = "SELECT DISTINCT CatProducto, COUNT(*) FROM producto GROUP BY CatProducto";

@@ -73,7 +73,7 @@
             <TableColumn fx:id="ColumnMarca" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="Marca" />
             <TableColumn fx:id="ColumnCantidad" maxWidth="100.0" prefWidth="100.0" resizable="false" text="Cantidad" />
             <TableColumn fx:id="ColumnPrecio" maxWidth="1.7976931348623157E308" prefWidth="120.0" resizable="false" text="Precio" />
-            <TableColumn fx:id="ColumnEditar" maxWidth="105.0" minWidth="105.0" prefWidth="105.0" text="Editar" />
+            <TableColumn fx:id="ColumnEliminar" maxWidth="105.0" minWidth="105.0" prefWidth="105.0" text="Eliminar" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
